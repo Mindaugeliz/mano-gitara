@@ -160,16 +160,18 @@
     font-size:10.5px;font-weight:700;padding:6px 8px;border-radius:5px;white-space:nowrap}
   .follow-bar .fb-nudge button:active{background:var(--raise)}
   .follow-bar .fb-calibrate{border:1px solid var(--accent)!important;color:var(--accent)!important;background:transparent!important}
-  .tab-scroll{max-height:320px;overflow-y:auto;-webkit-overflow-scrolling:touch}
-  .tab-seg{margin-bottom:10px}
-  .tab-seg:last-child{margin-bottom:0}
-  .seg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
-  .seg-label{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+  .tab-scroll{display:flex;flex-direction:row;align-items:flex-start;gap:14px;
+    overflow-x:auto;overflow-y:hidden;height:196px;padding-bottom:6px;
+    -webkit-overflow-scrolling:touch;scroll-behavior:auto}
+  .tab-seg{flex:none;max-width:88vw}
+  .seg-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:5px}
+  .seg-label{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
   .seg-badge{font-size:10px;font-weight:700;color:var(--faint);background:var(--surface);
-    border:1px solid var(--border);border-radius:5px;padding:2px 6px}
-  .tab-seg .tabblock{transition:border-color .15s,background .15s}
+    border:1px solid var(--border);border-radius:5px;padding:2px 6px;flex:none}
+  .tab-seg .tabblock{transition:border-color .15s,background .15s;overflow:visible;max-height:150px}
   .tab-seg.active .tabblock{border-color:var(--accent);
     background:color-mix(in srgb,var(--accent) 12%,var(--surface-2))}
+  .scroll-hint{font-size:11px;color:var(--faint);text-align:center;margin:2px 0 8px}
   .content-hint{font-size:11.5px;color:var(--faint);line-height:1.6;margin:-6px 0 14px}
   .content-hint code{background:var(--surface-2);padding:1px 5px;border-radius:4px;font-size:11px}
 
@@ -447,7 +449,7 @@
       introOffset:0,
       youtube:'8urkDqSoc54',
       content:
-"[Įžanga]\nBPM:108\nA\nx1\n\n[Posmas]\nA          D\nA          D\nA\nBm\nC#m\nE\nx3\n\n[Pilna versija su choru]\nA – D – A – D – A – Bm – C#m – E\nx1",
+"[Įžanga]\nBPM:108\n   A\ne|--0--|\nB|--2--|\nG|--2--|\nD|--2--|\nA|--0--|\nE|-----|\nx1\n\n[Posmas]\n   A     D     A     D     A     Bm    C#m   E\ne|--0--|--2--|--0--|--2--|--0--|--2--|--4--|--0--|\nB|--2--|--3--|--2--|--3--|--2--|--3--|--5--|--0--|\nG|--2--|--2--|--2--|--2--|--2--|--4--|--6--|--1--|\nD|--2--|--0--|--2--|--0--|--2--|--4--|--6--|--2--|\nA|--0--|-----|--0--|-----|--0--|--2--|--4--|--2--|\nE|-----|-----|-----|-----|-----|-----|-----|--0--|\nx3\n\n[Pilna versija su choru]\n(tas pats akordų ciklas kartojasi prieš kiekvieną posmą su choro pagrojimu)\nx1",
       notes:'Studijinė versija groja tik įžangos akordą A prieš pirmą posmą. Koncertinėje versijoje prieš kiekvieną posmą groja pilnas ciklas su choru.'
     },
     {
@@ -463,8 +465,8 @@
       introOffset:0,
       youtube:'L-iepu3EtyE',
       content:
-"[Įžanga - riff]\nBPM:92\ne|----------------|----------------|----------------|----------------|\nB|----------------|----------------|----------------|----------------|\nG|----------------|----------------|----------------|----------------|\nD|----0-----0-----|-0-----0-----0--|-----0-----0----|-0-----0-----0--|\nA|--0-----0-----0-|-----0-----0----|---0-----0----0-|-----0-----0----|\nD|3-----2-----0---|---0-----0-----0|-5-----3----2---|---2-----2----2-|\nx2",
-      notes:'Groti švariu (clean) tonu, leisti stygoms skambėti (let ring). Tabas – tik įžangos ištrauka pagal tavo užrašus ir viešus šaltinius, patikrink pirštuotę su originaliu įrašu.'
+"[Įžanga - violončelės efektas]\nBPM:92\ne|-------|------|-----|------|\nB|-------|------|-----|------|\nG|---7---|------|--5--|------|\nD|-------|--8---|-----|--7---|\nA|---5---|------|--3--|------|\nD|-------|--8---|-----|--7---|\nx1\n\n[Įžanga - gitara, švarus tonas]\nBPM:92\ne|----------------|----------------|----------------|----------------|\nB|----------------|----------------|----------------|----------------|\nG|----------------|----------------|----------------|----------------|\nD|----0-----0-----|-0-----0-----0--|-----0-----0----|-0-----0------0-|\nA|--0-----0-----0-|-----0-----0----|---0-----0----0-|-----0-----0----|\nD|3-----2-----0---|---0-----0-----0|-5-----3----2---|---2-----2----2-|\nx2\n\n[Posmas - su distorsija]\nBPM:92\ne|---------------------------|--------|--------|-------|--------|\nB|---------------------------|--------|--------|-------|--------|\nG|---------------------------|------12|------10|------9|------7-|\nD|8---8--8-8---8-8---8-8-8-8-|-0000---|-0000---|-0000--|-0000---|\nA|8---8--8-8---8-8---8-8-8-8-|-0000-10|-0000-8-|-0000-7|-0000-5-|\nD|8---8--8-8---8-8---8-8-8-8-|-0000---|-0000---|-0000--|-0000---|\nx1\n\n[Priedainis - švarus tonas]\nBPM:92\n(tas pats rifas kaip įžangos gitaros dalyje)\nx2\n\n[Pabaigos dalis - su distorsija]\nBPM:92\ne|--------|---------|---------|---------|\nB|--------|---------|---------|---------|\nG|--------|---------|---------|---------|\nD|7-7-7-7-|-7-7-7-7-|-7-7-7-7-|-7-7-7-7-|\nA|7-7-7-7-|-7-7-7-7-|-7-7-7-7-|-7-7-7-7-|\nD|7-7-7-7-|-7-7-7-7-|-7-7-7-7-|-7-7-7-7-|\nx1",
+      notes:'Groti švariu (clean) tonu žymėtose dalyse, leisti stygoms skambėti (let ring). Pagal tavo užrašus ir viešus tabų šaltinius – patikrink pirštuotę su originaliu įrašu.'
     },
     {
       id:'seed-killing-in-the-name',
@@ -475,12 +477,12 @@
       tuning:'dropD',
       status:'learning',
       difficulty:3,
-      bpm:120,
+      bpm:124,
       introOffset:0,
       youtube:'bWXazVhlyxQ',
       content:
-"[Pagrindinis rifas - įžanga]\nBPM:120\ne|--3--|--3--|--3--|--3--|--------|\nB|--3--|--3--|--3--|--3--|--------|\nG|--2--|--2--|--2--|--2--|--------|\nD|--0--|--0--|--0--|--0--|--------|\nA|--0--|--0--|--0--|--0--|--6-----|\nD|--0--|--0--|--0--|--0--|--------|\nx2\n\n[Groove / tarpinė dalis]\nBPM:82\ne|---------------------|\nB|---------------------|\nG|---------------------|\nD|--3--5--(H)--(P)------|\nA|--0--X-------3--4--0--|\nD|-----X----------------|\nx4",
-      notes:'H = hammer-on, P = pull-off, X = prislopinta styga (žema D tylinama delnu). Pagal tavo užrašus – patikrink groove dalį su originaliu įrašu.'
+"[Įžanga - rifas]\nBPM:124\ne|-----|-----|-----|-----|-----|--------------------------|\nB|--3--|--3--|--3--|--3--|-----|--------------------------|\nG|--2--|--2--|--2--|--2--|-----|--------------------------|\nD|--0--|--0--|--0--|--0--|-----|--------------------------|\nA|--0--|--0--|--0--|--0--|--6--|--(6)---------------------|\nD|--0--|--0--|--0--|--0--|-----|--------------------------|\nx2\n\n[Posmas]\nBPM:124\ne|-------------------------------|-------------------------------|\nB|-------------------------------|-------------------------------|\nG|-------------------------------|-------------------------------|\nD|---------------3h4-------------|--------------3h4---------------|\nA|--0--3h5-x--x-----5--0-2h3-2---|--0--3h5-x--x-----5--0-2h3-2----|\nD|---0------x--x--------0-2h3-2--|--0------x--x--------0-2h3-2----|\nx1\n\n[Priedainis]\nBPM:124\ne|------------------------------|-------------------------------|\nB|------------------------------|-------------------------------|\nG|------------------------------|-------------------------------|\nD|-------------9-------------8--|-------------7------------------|\nA|--0--3h5-x-x----0--3h5-x-x----|--0--3h5-x-x--------2h3-2h3-2----|\nD|--0------x-x----0------x-x----|--0------x-x-----0--2h3-2h3-2----|\nx1\n\n[Tarpinė dalis]\nBPM:124\ne|----------------|--------------------------------------------|\nB|----------------|--------------------------------------------|\nG|---7--7-----7---|---7--7---x--7---x-x-x-x-x-x-x-x-x-x---------|\nD|----------------|----------x------x-x-x-x-x-x-x-x-x-x---------|\nA|---5--5-----5---|---5--5---x--5---x-x-x-x-x-x-x-x-x-x---------|\nD|----------------|--------------------------------------------|\nx1\n\n[Solo dalis]\nBPM:124\ne|---------------------------------------------------|\nB|---------------------------------------------------|\nG|--7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7--|\nD|---------------------------------------------------|\nA|--5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5--|\nD|---------------------------------------------------|\nx1",
+      notes:'H = hammer-on, P = pull-off, X = prislopinta styga (žema D tylinama delnu, palm mute). Tabas pagal tavo užrašus ir viešus šaltinius – patikrink su originaliu įrašu.'
     },
     {
       id:'seed-last-resort',
@@ -495,12 +497,12 @@
       introOffset:0,
       youtube:'VUaM3psXB74',
       content:
-"[Įžanga - vokalo intro rifas]\nBPM:94\nD styga (žema), su prislopinimu delnu (palm mute):\n9-9-7 . 7-7-7 . 3-3-7 . 4-4-7-7-7\nx1\n\n[Posmas - arpeggio]\n2-5-4-5  4  5-4-5  0  5-4-5  4  5-4-5\n3-5-4-5  4  5-4-5  2-5-4-5  4  5-4-5\nx2\n\n[Posmas su palm mute]\n(tas pats rifas kaip įžangoje, tik prislopintas delnu)\nx4\n\n[Prieššlaitis - kylanti frazė]\n9-9-9-9-9-9-9-7-5-5-5-5-5-5-5-5\n7-7-7-7-7-7-7-5-3-3-3-3-3-3-3-3\n11-11-11-11-12-12-12-12-14-14-14-14-11-11-11-11\n9-9-9-9-10-10-10-10-12-12-12-12-9-9-9-9\nx2",
-      notes:'Toliau rifas kartojasi su nedidelėmis variacijomis iki dainos pabaigos – kelios natos tavo užraše paskutinėse eilutėse neaiškios, patikrink jas pagal savo popierinę versiją ir įrašą. BPM 94 – apytikslis įvertinimas.'
+"[Įžanga - rifas 1]\nBPM:94\nD|-9-9--------7-7--------5-5--------4-4---7-7--|\nA|-7-7--------5-5--------3-3--------2-2---5-5--|\nD|-9-9--------7-7--------5-5--------4-4---7-7--|\nx1\n\n[Įžanga - rifas 2]\nBPM:94\nD|-----------9--------------------9-------------|\nA|-7-10-9-10---10-9-10--5-10-9-10---10-9-10-----|\nD|------------------------------------------------|\nx1\n\n[Posmas]\nBPM:94\nD|------------9--------------------9-------------|\nA|----10-9-10---10-9-10----10-9-10---10-9-10-----|\nD|-10--------------------9------------------------|\nx2\n\n[Priedainis]\nBPM:94\nG|-9-9-9-9-9-9-9-9--5-5-5-5-5-5-5-5--11-11-11-11-12-12-12-12--|\nD|-9-9-9-9-9-9-9-9--5-5-5-5-5-5-5-5------------------------------|\nA|-7-7-7-7-7-7-7-7--3-3-3-3-3-3-3-3--9--9--9--9--10-10-10-10--|\nx2\n\n[Tiltas]\nBPM:94\nG|-9-9-9-9-9-9-9-9--5-5-5-5-5-5-5-5---------------------------|\nD|-9-9-9-9-9-9-9-9--5-5-5-5-5-5-5-5--5-5-5-5-5-5-5-5--9-9-9-9-9-9-9-9-|\nA|-7-7-7-7-7-7-7-7--3-3-3-3-3-3-3-3--5-5-5-5-5-5-5-5--9-9-9-9-9-9-9-9-|\nx1",
+      notes:'Tabas patikrintas pagal viešus šaltinius (Drop D derinimas). Neužrašytos e ir B stygos šiuose ištraukose negrojamos.'
     }
   ];
 
-  var STORAGE_KEY = 'manogitara.songs.v2';
+  var STORAGE_KEY = 'manogitara.songs.v3';
   var THEME_KEY = 'manogitara.theme';
 
   var songs = [];
@@ -606,7 +608,7 @@
   function stopFollow(id){
     var st = followState[id];
     if(!st) return;
-    if(st.raf) cancelAnimationFrame(st.raf);
+    if(st.timer) clearInterval(st.timer);
     st.playing = false;
     var btn = document.querySelector('[data-follow="'+id+'"]');
     if(btn){ btn.classList.remove('on'); btn.innerHTML = ICO.play; }
@@ -643,16 +645,24 @@
         if(t >= timeline.total){ st.clockStart = performance.now(); st.clockBase = 0; t = 0; }
       }
       if(t!=null && t>=0){
-        var frac = Math.max(0, Math.min(1, t/timeline.total));
         var scrollEl = document.getElementById('tabscroll-'+id);
         if(scrollEl){
-          var max = scrollEl.scrollHeight - scrollEl.clientHeight;
-          if(max>0) scrollEl.scrollTop = max*frac;
           var idx = findActiveIndex(timeline, t);
-          scrollEl.querySelectorAll('.tab-seg').forEach(function(el,i){ el.classList.toggle('active', i===idx); });
+          var segEls = scrollEl.querySelectorAll('.tab-seg');
+          segEls.forEach(function(el,i){ el.classList.toggle('active', i===idx); });
+          var curSeg = segEls[idx];
+          if(curSeg){
+            var bounds = timeline.bounds[idx];
+            var segFrac = (bounds.end>bounds.start) ? Math.max(0,Math.min(1,(t-bounds.start)/(bounds.end-bounds.start))) : 0;
+            var curLeft = curSeg.offsetLeft;
+            var nextSeg = segEls[idx+1];
+            var targetLeft = nextSeg ?
+              curLeft + (nextSeg.offsetLeft-curLeft)*segFrac :
+              curLeft + curSeg.offsetWidth*segFrac;
+            scrollEl.scrollLeft = Math.max(0, targetLeft-24);
+          }
         }
       }
-      st.raf = requestAnimationFrame(tick);
     }
 
     if(st.mode==='yt'){
@@ -667,12 +677,14 @@
         if(p && typeof p.playVideo==='function'){
           try{ p.playVideo(); }catch(e){}
           tick();
+          st.timer = setInterval(tick, 120);
         } else if(tries++ < 40){
           setTimeout(waitPlayer, 150);
         }
       })();
     } else {
       tick();
+      st.timer = setInterval(tick, 120);
     }
   }
 
@@ -820,6 +832,7 @@
           '<div class="tab-scroll" id="tabscroll-'+s.id+'">' +
             (segHtml || '<div class="tabblock">'+esc(s.content||'(Tabas dar nepridėtas.)')+'</div>') +
           '</div>' +
+          (segs.length ? '<div class="scroll-hint">← gali paslinkti pirštu, arba paspausk „Sekti tabą" – slinks automatiškai →</div>' : '') +
           (s.notes ? '<div class="tab-notes">'+esc(s.notes)+'</div>' : '') +
         '</div>' +
       '</div>';
@@ -1057,39 +1070,57 @@
   /* ---------- tuner ---------- */
   var currentTuning = 'standard';
   var audioCtx = null;
-  var activeOsc = null;
+  var activeOscs = [];
   var activeBtn = null;
 
   function stopTone(){
-    if(activeOsc){
-      try{ activeOsc.stop(); }catch(e){}
-      activeOsc = null;
-    }
+    activeOscs.forEach(function(o){ try{ o.stop(); }catch(e){} });
+    activeOscs = [];
     if(activeBtn){ activeBtn.classList.remove('on'); activeBtn=null; }
   }
   function playTone(freq, btn){
     if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==='suspended') audioCtx.resume();
     var wasSame = activeBtn===btn;
     stopTone();
     if(wasSame) return;
-    var osc = audioCtx.createOscillator();
-    var gain = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = freq;
     var now = audioCtx.currentTime;
-    gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.3, now+0.04);
-    gain.gain.linearRampToValueAtTime(0.0001, now+2.6);
-    osc.connect(gain).connect(audioCtx.destination);
-    osc.start();
-    osc.stop(now+2.7);
-    activeOsc = osc;
+    var dur = 3.4;
+
+    var master = audioCtx.createGain();
+    master.gain.setValueAtTime(0, now);
+    master.gain.linearRampToValueAtTime(0.6, now+0.03);
+    master.gain.linearRampToValueAtTime(0.42, now+0.4);
+    master.gain.linearRampToValueAtTime(0.0001, now+dur);
+    master.connect(audioCtx.destination);
+
+    var fundamental = audioCtx.createOscillator();
+    fundamental.type = 'triangle';
+    fundamental.frequency.value = freq;
+    fundamental.connect(master);
+
+    var octaveUp = audioCtx.createOscillator();
+    octaveUp.type = 'sine';
+    octaveUp.frequency.value = freq*2;
+    var octGain = audioCtx.createGain();
+    octGain.gain.value = 0.16;
+    octaveUp.connect(octGain).connect(master);
+
+    var sub = audioCtx.createOscillator();
+    sub.type = 'sine';
+    sub.frequency.value = freq/2;
+    var subGain = audioCtx.createGain();
+    subGain.gain.value = 0.22;
+    sub.connect(subGain).connect(master);
+
+    fundamental.start(); octaveUp.start(); sub.start();
+    fundamental.stop(now+dur+0.1); octaveUp.stop(now+dur+0.1); sub.stop(now+dur+0.1);
+    activeOscs = [fundamental, octaveUp, sub];
     activeBtn = btn;
     btn.classList.add('on');
-    osc.onended = function(){
-      if(activeOsc===osc){ activeOsc=null; }
-      btn.classList.remove('on');
-      if(activeBtn===btn) activeBtn=null;
+    fundamental.onended = function(){
+      if(activeBtn===btn){ btn.classList.remove('on'); activeBtn=null; }
+      activeOscs = activeOscs.filter(function(o){ return o!==fundamental; });
     };
   }
 
