@@ -146,6 +146,33 @@
   .tab-note{font-size:11.5px;color:var(--faint);margin-top:8px;line-height:1.5}
   .tab-notes{font-size:12.5px;color:var(--dim);margin-top:8px;line-height:1.5;font-style:italic}
 
+  /* rhythm-synced tab scroller */
+  .follow-bar{display:flex;align-items:center;gap:9px;margin-bottom:10px;flex-wrap:wrap;
+    background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px}
+  .follow-bar .fb-play{flex:none;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--accent);
+    background:transparent;color:var(--accent);display:grid;place-items:center}
+  .follow-bar .fb-play.on{background:var(--accent);color:var(--accent-ink)}
+  .follow-bar .fb-play svg{width:14px;height:14px}
+  .follow-bar .fb-info{flex:1;min-width:130px;font-size:11.5px;color:var(--dim);line-height:1.5}
+  .follow-bar .fb-info b{color:var(--text);display:block;font-size:12px}
+  .follow-bar .fb-nudge{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+  .follow-bar .fb-nudge button{border:1px solid var(--border);background:var(--surface);color:var(--text);
+    font-size:10.5px;font-weight:700;padding:6px 8px;border-radius:5px;white-space:nowrap}
+  .follow-bar .fb-nudge button:active{background:var(--raise)}
+  .follow-bar .fb-calibrate{border:1px solid var(--accent)!important;color:var(--accent)!important;background:transparent!important}
+  .tab-scroll{max-height:320px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .tab-seg{margin-bottom:10px}
+  .tab-seg:last-child{margin-bottom:0}
+  .seg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+  .seg-label{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+  .seg-badge{font-size:10px;font-weight:700;color:var(--faint);background:var(--surface);
+    border:1px solid var(--border);border-radius:5px;padding:2px 6px}
+  .tab-seg .tabblock{transition:border-color .15s,background .15s}
+  .tab-seg.active .tabblock{border-color:var(--accent);
+    background:color-mix(in srgb,var(--accent) 12%,var(--surface-2))}
+  .content-hint{font-size:11.5px;color:var(--faint);line-height:1.6;margin:-6px 0 14px}
+  .content-hint code{background:var(--surface-2);padding:1px 5px;border-radius:4px;font-size:11px}
+
   /* tuner */
   .tuning-select{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;margin-bottom:18px}
   .string-list{display:flex;flex-direction:column;gap:9px}
@@ -416,9 +443,11 @@
       tuning:'standard',
       status:'learning',
       difficulty:2,
+      bpm:108,
+      introOffset:0,
       youtube:'8urkDqSoc54',
       content:
-"ĮŽANGA\nA\n\nPOSMAS (kartojasi x3 – tas pats akordų ciklas kiekvienam posmui)\nA          D\nA          D\nA\nBm\nC#m\nE\n\nPilna koncertinė versija (\"In The Flesh\") su choro pagrojimu prieš kiekvieną posmą:\nA – D – A – D – A – Bm – C#m – E",
+"[Įžanga]\nBPM:108\nA\nx1\n\n[Posmas]\nA          D\nA          D\nA\nBm\nC#m\nE\nx3\n\n[Pilna versija su choru]\nA – D – A – D – A – Bm – C#m – E\nx1",
       notes:'Studijinė versija groja tik įžangos akordą A prieš pirmą posmą. Koncertinėje versijoje prieš kiekvieną posmą groja pilnas ciklas su choru.'
     },
     {
@@ -430,10 +459,12 @@
       tuning:'dropC',
       status:'learning',
       difficulty:4,
+      bpm:92,
+      introOffset:0,
       youtube:'L-iepu3EtyE',
       content:
-"DERINIMAS: Drop C (C G C F A D)\n\nĮŽANGA (švarus tonas, \"let ring\")\ne|----------------|----------------|----------------|----------------|\nB|----------------|----------------|----------------|----------------|\nG|----------------|----------------|----------------|----------------|\nD|----0-----0-----|-0-----0-----0--|-----0-----0----|-0-----0-----0--|\nA|--0-----0-----0-|-----0-----0----|---0-----0----0-|-----0-----0----|\nD|3-----2-----0---|---0-----0-----0|-5-----3----2---|---2-----2----2-|\n\n(apytikslė transkripcija pagal tavo užrašus ir viešus šaltinius – palygink pirštuotę su originaliu įrašu)",
-      notes:'Groti švariu (clean) tonu, leisti stygoms skambėti (let ring). Rifas kartojasi su nedidelėmis variacijomis prieš kiekvieną posmą.'
+"[Įžanga - riff]\nBPM:92\ne|----------------|----------------|----------------|----------------|\nB|----------------|----------------|----------------|----------------|\nG|----------------|----------------|----------------|----------------|\nD|----0-----0-----|-0-----0-----0--|-----0-----0----|-0-----0-----0--|\nA|--0-----0-----0-|-----0-----0----|---0-----0----0-|-----0-----0----|\nD|3-----2-----0---|---0-----0-----0|-5-----3----2---|---2-----2----2-|\nx2",
+      notes:'Groti švariu (clean) tonu, leisti stygoms skambėti (let ring). Tabas – tik įžangos ištrauka pagal tavo užrašus ir viešus šaltinius, patikrink pirštuotę su originaliu įrašu.'
     },
     {
       id:'seed-killing-in-the-name',
@@ -444,14 +475,32 @@
       tuning:'dropD',
       status:'learning',
       difficulty:3,
+      bpm:120,
+      introOffset:0,
       youtube:'bWXazVhlyxQ',
       content:
-"DERINIMAS: Dropped D (D A D G B e)\n\nPAGRINDINIS RIFAS (įžanga, ~120 BPM)\ne|--3--|--3--|--3--|--3--|--------|\nB|--3--|--3--|--3--|--3--|--------|\nG|--2--|--2--|--2--|--2--|--------|\nD|--0--|--0--|--0--|--0--|--------|\nA|--0--|--0--|--0--|--0--|--6-----|\nD|--0--|--0--|--0--|--0--|--------|\n\nGROOVE / TARPINĖ DALIS (H = hammer-on, P = pull-off, X = prislopinta styga)\ne|---------------------|\nB|---------------------|\nG|---------------------|\nD|--3--5--(H)--(P)------|\nA|--0--X-------3--4--0--|\nD|-----X----------------|\n\n(pagal tavo užrašus – patikrink ypač vidurinę dalį su originaliu įrašu)",
-      notes:'Klasikinis rifas – žema D styga tylinama delnu (palm mute), akcentuoti kirčiuotas natas. Groove dalis kartojasi per visą kūrinį su nedidelėm variacijomis.'
+"[Pagrindinis rifas - įžanga]\nBPM:120\ne|--3--|--3--|--3--|--3--|--------|\nB|--3--|--3--|--3--|--3--|--------|\nG|--2--|--2--|--2--|--2--|--------|\nD|--0--|--0--|--0--|--0--|--------|\nA|--0--|--0--|--0--|--0--|--6-----|\nD|--0--|--0--|--0--|--0--|--------|\nx2\n\n[Groove / tarpinė dalis]\nBPM:82\ne|---------------------|\nB|---------------------|\nG|---------------------|\nD|--3--5--(H)--(P)------|\nA|--0--X-------3--4--0--|\nD|-----X----------------|\nx4",
+      notes:'H = hammer-on, P = pull-off, X = prislopinta styga (žema D tylinama delnu). Pagal tavo užrašus – patikrink groove dalį su originaliu įrašu.'
+    },
+    {
+      id:'seed-last-resort',
+      title:'Last Resort',
+      artist:'Papa Roach',
+      album:'Infest',
+      genre:'metal',
+      tuning:'dropD',
+      status:'learning',
+      difficulty:3,
+      bpm:94,
+      introOffset:0,
+      youtube:'VUaM3psXB74',
+      content:
+"[Įžanga - vokalo intro rifas]\nBPM:94\nD styga (žema), su prislopinimu delnu (palm mute):\n9-9-7 . 7-7-7 . 3-3-7 . 4-4-7-7-7\nx1\n\n[Posmas - arpeggio]\n2-5-4-5  4  5-4-5  0  5-4-5  4  5-4-5\n3-5-4-5  4  5-4-5  2-5-4-5  4  5-4-5\nx2\n\n[Posmas su palm mute]\n(tas pats rifas kaip įžangoje, tik prislopintas delnu)\nx4\n\n[Prieššlaitis - kylanti frazė]\n9-9-9-9-9-9-9-7-5-5-5-5-5-5-5-5\n7-7-7-7-7-7-7-5-3-3-3-3-3-3-3-3\n11-11-11-11-12-12-12-12-14-14-14-14-11-11-11-11\n9-9-9-9-10-10-10-10-12-12-12-12-9-9-9-9\nx2",
+      notes:'Toliau rifas kartojasi su nedidelėmis variacijomis iki dainos pabaigos – kelios natos tavo užraše paskutinėse eilutėse neaiškios, patikrink jas pagal savo popierinę versiją ir įrašą. BPM 94 – apytikslis įvertinimas.'
     }
   ];
 
-  var STORAGE_KEY = 'manogitara.songs.v1';
+  var STORAGE_KEY = 'manogitara.songs.v2';
   var THEME_KEY = 'manogitara.theme';
 
   var songs = [];
@@ -469,9 +518,163 @@
 
   var statusFilter = 'all';
   var genreFilter = 'all';
-  var expandedTab = {};
-  var expandedYt = {};
   var editingId = null;
+
+  /* ---------- rhythm-synced tab segments ---------- */
+  var timelineCache = {};
+  var followState = {};
+  var ytPlayers = {};
+
+  function parseSegments(text, defaultBpm){
+    if(!text) return [];
+    var chunks = String(text).split(/\n\s*\n/).map(function(c){ return c.trim(); }).filter(Boolean);
+    return chunks.map(function(chunk){
+      var lines = chunk.split('\n');
+      var label = null, bpm = defaultBpm||100;
+      while(lines.length){
+        var l = lines[0].trim();
+        var lm = l.match(/^\[(.+)\]$/);
+        var bm = l.match(/^BPM:\s*(\d+)/i);
+        if(lm){ label = lm[1]; lines.shift(); continue; }
+        if(bm){ bpm = parseInt(bm[1],10); lines.shift(); continue; }
+        break;
+      }
+      var repeat = 1;
+      if(lines.length){
+        var last = lines[lines.length-1].trim();
+        var rm = last.match(/^x\s*(\d+)$/i);
+        if(rm){ repeat = parseInt(rm[1],10); lines.pop(); }
+      }
+      var body = lines.join('\n').trim();
+      return { label:label, bpm:bpm, beats:4*repeat, repeatLabel:(repeat>1?('×'+repeat):''), text:body };
+    }).filter(function(seg){ return seg.text; });
+  }
+
+  function computeTimeline(segs){
+    var t = 0, bounds = [];
+    segs.forEach(function(seg){
+      var dur = seg.beats * (60/seg.bpm);
+      bounds.push({start:t, end:t+dur});
+      t += dur;
+    });
+    return {bounds:bounds, total:t};
+  }
+
+  function getTimeline(song){
+    if(!timelineCache[song.id]){
+      timelineCache[song.id] = computeTimeline(parseSegments(song.content, song.bpm||100));
+    }
+    return timelineCache[song.id];
+  }
+
+  function findActiveIndex(timeline, t){
+    for(var i=0;i<timeline.bounds.length;i++){
+      if(t < timeline.bounds[i].end) return i;
+    }
+    return timeline.bounds.length-1;
+  }
+
+  /* ---------- YouTube IFrame API ---------- */
+  function ensureYT(cb){
+    if(window.YT && window.YT.Player){ cb(); return; }
+    window._ytCallbacks = window._ytCallbacks || [];
+    window._ytCallbacks.push(cb);
+    if(window._ytLoading) return;
+    window._ytLoading = true;
+    var tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+    window.onYouTubeIframeAPIReady = function(){
+      (window._ytCallbacks||[]).forEach(function(f){ f(); });
+      window._ytCallbacks = [];
+    };
+  }
+  function initYTPlayer(song){
+    if(!song || !song.youtube || ytPlayers[song.id]) return;
+    ensureYT(function(){
+      var ph = document.getElementById('ytph-'+song.id);
+      if(!ph) return;
+      ytPlayers[song.id] = new YT.Player(ph, {
+        videoId: song.youtube,
+        host: 'https://www.youtube-nocookie.com',
+        playerVars:{rel:0, playsinline:1}
+      });
+    });
+  }
+
+  /* ---------- follow (rhythm-synced scroll) controller ---------- */
+  function stopFollow(id){
+    var st = followState[id];
+    if(!st) return;
+    if(st.raf) cancelAnimationFrame(st.raf);
+    st.playing = false;
+    var btn = document.querySelector('[data-follow="'+id+'"]');
+    if(btn){ btn.classList.remove('on'); btn.innerHTML = ICO.play; }
+    var scrollEl = document.getElementById('tabscroll-'+id);
+    if(scrollEl) scrollEl.querySelectorAll('.tab-seg.active').forEach(function(e){ e.classList.remove('active'); });
+  }
+
+  function startFollow(song){
+    var id = song.id;
+    var timeline = getTimeline(song);
+    if(!timeline.bounds.length) return;
+    var st = followState[id] || (followState[id] = {});
+    st.playing = true;
+    st.mode = song.youtube ? 'yt' : 'clock';
+    if(st.mode==='clock'){
+      st.clockStart = performance.now();
+      st.clockBase = st.clockBase || 0;
+      st.speed = st.speed || 1;
+    }
+
+    var btn = document.querySelector('[data-follow="'+id+'"]');
+    if(btn){ btn.classList.add('on'); btn.innerHTML = ICO.pause; }
+
+    function tick(){
+      if(!followState[id] || !followState[id].playing) return;
+      var t = null;
+      if(st.mode==='yt'){
+        var p = ytPlayers[id];
+        if(p && typeof p.getPlayerState==='function' && p.getPlayerState()===1){
+          t = p.getCurrentTime() - (song.introOffset||0);
+        }
+      } else {
+        t = st.clockBase + (performance.now()-st.clockStart)/1000*st.speed;
+        if(t >= timeline.total){ st.clockStart = performance.now(); st.clockBase = 0; t = 0; }
+      }
+      if(t!=null && t>=0){
+        var frac = Math.max(0, Math.min(1, t/timeline.total));
+        var scrollEl = document.getElementById('tabscroll-'+id);
+        if(scrollEl){
+          var max = scrollEl.scrollHeight - scrollEl.clientHeight;
+          if(max>0) scrollEl.scrollTop = max*frac;
+          var idx = findActiveIndex(timeline, t);
+          scrollEl.querySelectorAll('.tab-seg').forEach(function(el,i){ el.classList.toggle('active', i===idx); });
+        }
+      }
+      st.raf = requestAnimationFrame(tick);
+    }
+
+    if(st.mode==='yt'){
+      initYTPlayer(song);
+      var wrap = document.getElementById('yt-'+id);
+      if(wrap) wrap.classList.add('show');
+      var ytBtn = document.querySelector('[data-yt="'+id+'"]');
+      if(ytBtn){ ytBtn.classList.add('on'); ytBtn.innerHTML = ICO.pause+' Klausytis'; }
+      var tries = 0;
+      (function waitPlayer(){
+        var p = ytPlayers[id];
+        if(p && typeof p.playVideo==='function'){
+          try{ p.playVideo(); }catch(e){}
+          tick();
+        } else if(tries++ < 40){
+          setTimeout(waitPlayer, 150);
+        }
+      })();
+    } else {
+      tick();
+    }
+  }
 
   /* ---------- icons ---------- */
   var ICO = {
@@ -534,6 +737,12 @@
   /* ---------- render songs ---------- */
   function renderSongs(){
     var list = document.getElementById('songList');
+
+    /* full rebuild tears down any live players/follow loops - stop them cleanly first */
+    Object.keys(followState).forEach(function(id){ if(followState[id].playing) stopFollow(id); });
+    Object.keys(ytPlayers).forEach(function(id){ try{ ytPlayers[id].destroy(); }catch(e){} delete ytPlayers[id]; });
+    timelineCache = {};
+
     var filtered = songs.filter(function(s){
       return (statusFilter==='all' || s.status===statusFilter) &&
              (genreFilter==='all' || s.genre===genreFilter);
@@ -549,8 +758,38 @@
       var g = GENRES[s.genre] || GENRES.other;
       var st = STATUSES[s.status] || STATUSES.wishlist;
       var tn = TUNINGS[s.tuning] || TUNINGS.custom;
-      var tabOpen = !!expandedTab[s.id];
-      var ytOpen = !!expandedYt[s.id];
+      var segs = parseSegments(s.content, s.bpm||100);
+      var segHtml = segs.map(function(seg, i){
+        return '<div class="tab-seg" data-seg-idx="'+i+'">' +
+          (seg.label || seg.repeatLabel ? '<div class="seg-head">' +
+            (seg.label ? '<span class="seg-label">'+esc(seg.label)+'</span>' : '<span></span>') +
+            (seg.repeatLabel ? '<span class="seg-badge">'+seg.repeatLabel+'</span>' : '') +
+          '</div>' : '') +
+          '<div class="tabblock">'+esc(seg.text)+'</div>' +
+        '</div>';
+      }).join('');
+      var followBar = segs.length ? (
+        '<div class="follow-bar">' +
+          '<button class="fb-play" data-follow="'+s.id+'">'+ICO.play+'</button>' +
+          '<div class="fb-info"><b>Sekti tabą pagal ritmą</b>' +
+          (s.youtube ?
+            'sinchronizuota su video · poslinkis <span id="fboff-'+s.id+'">'+(s.introOffset||0).toFixed(1)+'s</span>' :
+            'metronomo režimas · <span id="fbbpm-'+s.id+'">'+Math.round(s.bpm||100)+'</span> BPM') +
+          '</div>' +
+          (s.youtube ?
+            '<div class="fb-nudge">' +
+              '<button data-nudge="-1" data-song="'+s.id+'">−1s</button>' +
+              '<button data-nudge="-0.1" data-song="'+s.id+'">−0.1</button>' +
+              '<button class="fb-calibrate" data-calibrate="'+s.id+'">Dabar!</button>' +
+              '<button data-nudge="0.1" data-song="'+s.id+'">+0.1</button>' +
+              '<button data-nudge="1" data-song="'+s.id+'">+1s</button>' +
+            '</div>' :
+            '<div class="fb-nudge">' +
+              '<button data-bpm="-5" data-song="'+s.id+'">−5</button>' +
+              '<button data-bpm="5" data-song="'+s.id+'">+5</button>' +
+            '</div>') +
+        '</div>'
+      ) : '';
       return '' +
       '<div class="song" style="border-left-color:'+g.color+'">' +
         '<div class="srow">' +
@@ -568,16 +807,19 @@
           diffDots(s.difficulty||0) +
         '</div>' +
         '<div class="actrow">' +
-          '<button class="btn-yt'+(ytOpen?' on':'')+'" data-yt="'+s.id+'">'+(ytOpen?ICO.pause:ICO.play)+' Klausytis</button>' +
-          '<button class="btn-tab'+(tabOpen?' on':'')+'" data-tab-toggle="'+s.id+'">'+ICO.tab+' Tabas</button>' +
+          '<button class="btn-yt" data-yt="'+s.id+'">'+ICO.play+' Klausytis</button>' +
+          '<button class="btn-tab" data-tab-toggle="'+s.id+'">'+ICO.tab+' Tabas</button>' +
           '<button class="icon-btn" data-edit="'+s.id+'" style="flex:none;width:40px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2)">'+ICO.edit+'</button>' +
           '<button class="icon-btn" data-del="'+s.id+'" style="flex:none;width:40px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2);color:var(--danger)">'+ICO.trash+'</button>' +
         '</div>' +
-        '<div class="yt-wrap'+(ytOpen?' show':'')+'" id="yt-'+s.id+'">' +
-          (ytOpen && s.youtube ? '<iframe src="https://www.youtube-nocookie.com/embed/'+esc(s.youtube)+'?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>' : '') +
+        '<div class="yt-wrap" id="yt-'+s.id+'">' +
+          (s.youtube ? '<div id="ytph-'+s.id+'"></div>' : '') +
         '</div>' +
-        '<div class="tab-wrap'+(tabOpen?' show':'')+'">' +
-          '<div class="tabblock">'+esc(s.content||'(Tabas dar nepridėtas.)')+'</div>' +
+        '<div class="tab-wrap" id="tabwrap-'+s.id+'">' +
+          followBar +
+          '<div class="tab-scroll" id="tabscroll-'+s.id+'">' +
+            (segHtml || '<div class="tabblock">'+esc(s.content||'(Tabas dar nepridėtas.)')+'</div>') +
+          '</div>' +
           (s.notes ? '<div class="tab-notes">'+esc(s.notes)+'</div>' : '') +
         '</div>' +
       '</div>';
@@ -586,15 +828,74 @@
     list.querySelectorAll('[data-yt]').forEach(function(btn){
       btn.addEventListener('click', function(){
         var id = btn.dataset.yt;
-        expandedYt[id] = !expandedYt[id];
-        renderSongs();
+        var wrap = document.getElementById('yt-'+id);
+        var willShow = !wrap.classList.contains('show');
+        wrap.classList.toggle('show', willShow);
+        btn.classList.toggle('on', willShow);
+        btn.innerHTML = (willShow?ICO.pause:ICO.play)+' Klausytis';
+        if(willShow) initYTPlayer(songs.find(function(x){ return x.id===id; }));
       });
     });
     list.querySelectorAll('[data-tab-toggle]').forEach(function(btn){
       btn.addEventListener('click', function(){
         var id = btn.dataset.tabToggle;
-        expandedTab[id] = !expandedTab[id];
-        renderSongs();
+        var wrap = document.getElementById('tabwrap-'+id);
+        var willShow = !wrap.classList.contains('show');
+        wrap.classList.toggle('show', willShow);
+        btn.classList.toggle('on', willShow);
+      });
+    });
+    list.querySelectorAll('[data-follow]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.dataset.follow;
+        var song = songs.find(function(x){ return x.id===id; });
+        if(followState[id] && followState[id].playing) stopFollow(id);
+        else startFollow(song);
+      });
+    });
+    list.querySelectorAll('[data-nudge]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.dataset.song;
+        var s = songs.find(function(x){ return x.id===id; });
+        if(!s) return;
+        s.introOffset = Math.max(0, Number(((s.introOffset||0)+Number(btn.dataset.nudge)).toFixed(2)));
+        saveSongs();
+        var lbl = document.getElementById('fboff-'+id);
+        if(lbl) lbl.textContent = s.introOffset.toFixed(1)+'s';
+      });
+    });
+    list.querySelectorAll('[data-calibrate]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.dataset.calibrate;
+        var s = songs.find(function(x){ return x.id===id; });
+        var p = ytPlayers[id];
+        if(!s || !p || typeof p.getCurrentTime!=='function'){
+          alert('Pirmiausia paleisk vaizdo įrašą (paspausk „Klausytis“ arba „Sekti tabą“).');
+          return;
+        }
+        s.introOffset = Number(p.getCurrentTime().toFixed(2));
+        saveSongs();
+        var lbl = document.getElementById('fboff-'+id);
+        if(lbl) lbl.textContent = s.introOffset.toFixed(1)+'s';
+      });
+    });
+    list.querySelectorAll('[data-bpm]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.dataset.song;
+        var s = songs.find(function(x){ return x.id===id; });
+        if(!s) return;
+        var base = s.bpm||100;
+        var st = followState[id] || (followState[id] = {speed:1});
+        var currentBpm = Math.round(base*(st.speed||1));
+        var newBpm = Math.max(30, currentBpm+Number(btn.dataset.bpm));
+        if(st.playing && st.mode==='clock'){
+          var elapsedNow = (st.clockBase||0) + (performance.now()-st.clockStart)/1000*(st.speed||1);
+          st.clockBase = elapsedNow;
+          st.clockStart = performance.now();
+        }
+        st.speed = newBpm/base;
+        var lbl = document.getElementById('fbbpm-'+id);
+        if(lbl) lbl.textContent = newBpm;
       });
     });
     list.querySelectorAll('[data-edit]').forEach(function(btn){
@@ -628,7 +929,7 @@
     editingId = id;
     var s = id ? songs.find(function(x){ return x.id===id; }) : null;
     var isEdit = !!s;
-    s = s || {title:'',artist:'',album:'',genre:'metal',tuning:'standard',status:'learning',difficulty:3,youtube:'',content:'',notes:''};
+    s = s || {title:'',artist:'',album:'',genre:'metal',tuning:'standard',status:'learning',difficulty:3,youtube:'',content:'',notes:'',bpm:100,introOffset:0};
 
     var genreChips = Object.keys(GENRES).map(function(k){
       return '<button type="button" class="chip'+(s.genre===k?' on':'')+'" data-field="genre" data-val="'+k+'">'+GENRES[k].label+'</button>';
@@ -654,7 +955,12 @@
       '<div class="field"><label>Statusas</label><div class="chips" id="f-status">'+statusChips+'</div></div>' +
       '<div class="field"><label>Sudėtingumas (1–5)</label><div class="chips" id="f-difficulty">'+diffChips+'</div></div>' +
       '<div class="field"><label>YouTube video ID arba nuoroda (nebūtina)</label><input id="f-youtube" value="'+esc(s.youtube)+'" placeholder="pvz. dQw4w9WgXcQ arba pilna nuoroda"></div>' +
-      '<div class="field"><label>Akordai / tabas (be dainos žodžių)</label><textarea id="f-content" class="mono" placeholder="Įklijuok akordų seką arba TAB notaciją...">'+esc(s.content)+'</textarea></div>' +
+      '<div class="field"><label>Tempas (BPM)</label><input id="f-bpm" type="number" min="30" max="300" value="'+(s.bpm||100)+'"></div>' +
+      '<div class="field"><label>Akordai / tabas (be dainos žodžių)</label><textarea id="f-content" class="mono" placeholder="Įklijuok akordų seką arba TAB notaciją...">'+esc(s.content)+'</textarea>' +
+        '<div class="content-hint">Nori, kad tabas slinktųsi pagal ritmą? Atskirk kiekvieną rifą/eilutę <b>tuščia eilute</b>. '+
+        'Prieš rifą gali įrašyti <code>[Pavadinimas]</code> sekcijai ir/ar <code>BPM:100</code> jei tempas skiriasi, '+
+        'o paskutinėje segmento eilutėje <code>x4</code> jei kartojasi 4 kartus.</div>' +
+      '</div>' +
       '<div class="field"><label>Pastabos (nebūtina)</label><textarea id="f-notes" placeholder="Grojimo patarimai, strumo raštas ir t.t.">'+esc(s.notes)+'</textarea></div>' +
       '<button class="save" id="saveSong">Išsaugoti</button>' +
       (isEdit ? '<button class="del-link" id="deleteSong">Ištrinti dainą</button>' : '');
@@ -689,6 +995,8 @@
         status: statusBtn ? statusBtn.dataset.val : 'learning',
         difficulty: diffBtn ? Number(diffBtn.dataset.val) : 3,
         youtube: yt,
+        bpm: Number(document.getElementById('f-bpm').value) || 100,
+        introOffset: isEdit ? (s.introOffset||0) : 0,
         content: document.getElementById('f-content').value,
         notes: document.getElementById('f-notes').value.trim()
       };
