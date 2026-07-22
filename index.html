@@ -135,45 +135,32 @@
   .actrow button:active{background:var(--raise);transform:scale(.98)}
   .actrow button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
   .actrow svg{width:15px;height:15px}
-  .yt-wrap{margin-top:10px;border-radius:var(--r-sm);overflow:hidden;background:#000;display:none}
-  .yt-wrap.show{display:block}
-  .yt-wrap iframe{width:100%;aspect-ratio:16/9;display:block;border:none}
-  .tab-wrap{margin-top:10px;display:none}
-  .tab-wrap.show{display:block}
   .tabblock{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-sm);
-    padding:12px 13px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;
-    line-height:1.55;white-space:pre;overflow-x:auto;color:var(--text)}
-  .tab-note{font-size:11.5px;color:var(--faint);margin-top:8px;line-height:1.5}
-  .tab-notes{font-size:12.5px;color:var(--dim);margin-top:8px;line-height:1.5;font-style:italic}
-
-  /* rhythm-synced tab scroller */
-  .follow-bar{display:flex;align-items:center;gap:9px;margin-bottom:10px;flex-wrap:wrap;
-    background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px}
-  .follow-bar .fb-play{flex:none;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--accent);
-    background:transparent;color:var(--accent);display:grid;place-items:center}
-  .follow-bar .fb-play.on{background:var(--accent);color:var(--accent-ink)}
-  .follow-bar .fb-play svg{width:14px;height:14px}
-  .follow-bar .fb-info{flex:1;min-width:130px;font-size:11.5px;color:var(--dim);line-height:1.5}
-  .follow-bar .fb-info b{color:var(--text);display:block;font-size:12px}
-  .follow-bar .fb-nudge{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
-  .follow-bar .fb-nudge button{border:1px solid var(--border);background:var(--surface);color:var(--text);
-    font-size:10.5px;font-weight:700;padding:6px 8px;border-radius:5px;white-space:nowrap}
-  .follow-bar .fb-nudge button:active{background:var(--raise)}
-  .follow-bar .fb-calibrate{border:1px solid var(--accent)!important;color:var(--accent)!important;background:transparent!important}
-  .tab-scroll{display:flex;flex-direction:row;align-items:flex-start;gap:14px;
-    overflow-x:auto;overflow-y:hidden;height:196px;padding-bottom:6px;
-    -webkit-overflow-scrolling:touch;scroll-behavior:auto}
-  .tab-seg{flex:none;max-width:88vw}
-  .seg-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:5px}
-  .seg-label{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
-  .seg-badge{font-size:10px;font-weight:700;color:var(--faint);background:var(--surface);
-    border:1px solid var(--border);border-radius:5px;padding:2px 6px;flex:none}
-  .tab-seg .tabblock{transition:border-color .15s,background .15s;overflow:visible;max-height:150px}
-  .tab-seg.active .tabblock{border-color:var(--accent);
-    background:color-mix(in srgb,var(--accent) 12%,var(--surface-2))}
-  .scroll-hint{font-size:11px;color:var(--faint);text-align:center;margin:2px 0 8px}
+    padding:12px 13px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;
+    line-height:1.6;white-space:pre;overflow-x:auto;color:var(--text)}
+  .tab-notes{font-size:12.5px;color:var(--dim);margin-top:14px;line-height:1.5;font-style:italic}
+  .tab-seg{margin-bottom:16px}
+  .tab-seg:last-child{margin-bottom:0}
+  .seg-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+  .seg-label{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+  .seg-badge{font-size:10.5px;font-weight:700;color:var(--faint);background:var(--surface);
+    border:1px solid var(--border);border-radius:5px;padding:2px 7px;flex:none}
   .content-hint{font-size:11.5px;color:var(--faint);line-height:1.6;margin:-6px 0 14px}
   .content-hint code{background:var(--surface-2);padding:1px 5px;border-radius:4px;font-size:11px}
+
+  /* full-screen song view */
+  .full-overlay{position:fixed;inset:0;z-index:70;background:var(--bg);display:none;flex-direction:column}
+  .full-overlay.show{display:flex}
+  .full-head{position:sticky;top:0;z-index:2;background:color-mix(in srgb,var(--bg) 92%,transparent);
+    backdrop-filter:blur(12px);border-bottom:1px solid var(--border);flex:none;
+    padding:calc(env(safe-area-inset-top) + 14px) 16px 12px;display:flex;align-items:center;gap:12px}
+  .full-head .fh-info{flex:1;min-width:0}
+  .full-head .fh-title{font-size:17px;font-weight:800;letter-spacing:-.01em}
+  .full-head .fh-artist{font-size:12.5px;color:var(--dim);margin-top:2px}
+  .full-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+    padding:16px 16px calc(24px + env(safe-area-inset-bottom))}
+  .full-yt{border-radius:var(--r-sm);overflow:hidden;background:#000;margin-bottom:18px}
+  .full-yt iframe{width:100%;aspect-ratio:16/9;display:block;border:none}
 
   /* tuner */
   .tuning-select{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;margin-bottom:18px}
@@ -381,6 +368,17 @@
   <div class="sheet" id="sheet"></div>
 </div>
 
+<div class="full-overlay" id="fullOverlay">
+  <div class="full-head">
+    <div class="fh-info">
+      <div class="fh-title" id="fullTitle"></div>
+      <div class="fh-artist" id="fullArtist"></div>
+    </div>
+    <button class="x" id="fullClose">✕</button>
+  </div>
+  <div class="full-body" id="fullBody"></div>
+</div>
+
 <script>
 (function(){
   "use strict";
@@ -445,8 +443,6 @@
       tuning:'standard',
       status:'learning',
       difficulty:2,
-      bpm:108,
-      introOffset:0,
       youtube:'8urkDqSoc54',
       content:
 "[Įžanga]\nBPM:108\n   A\ne|--0--|\nB|--2--|\nG|--2--|\nD|--2--|\nA|--0--|\nE|-----|\nx1\n\n[Posmas]\n   A     D     A     D     A     Bm    C#m   E\ne|--0--|--2--|--0--|--2--|--0--|--2--|--4--|--0--|\nB|--2--|--3--|--2--|--3--|--2--|--3--|--5--|--0--|\nG|--2--|--2--|--2--|--2--|--2--|--4--|--6--|--1--|\nD|--2--|--0--|--2--|--0--|--2--|--4--|--6--|--2--|\nA|--0--|-----|--0--|-----|--0--|--2--|--4--|--2--|\nE|-----|-----|-----|-----|-----|-----|-----|--0--|\nx3\n\n[Pilna versija su choru]\n(tas pats akordų ciklas kartojasi prieš kiekvieną posmą su choro pagrojimu)\nx1",
@@ -461,8 +457,6 @@
       tuning:'dropC',
       status:'learning',
       difficulty:4,
-      bpm:92,
-      introOffset:0,
       youtube:'L-iepu3EtyE',
       content:
 "[Įžanga - violončelės efektas]\nBPM:92\ne|-------|------|-----|------|\nB|-------|------|-----|------|\nG|---7---|------|--5--|------|\nD|-------|--8---|-----|--7---|\nA|---5---|------|--3--|------|\nD|-------|--8---|-----|--7---|\nx1\n\n[Įžanga - gitara, švarus tonas]\nBPM:92\ne|----------------|----------------|----------------|----------------|\nB|----------------|----------------|----------------|----------------|\nG|----------------|----------------|----------------|----------------|\nD|----0-----0-----|-0-----0-----0--|-----0-----0----|-0-----0------0-|\nA|--0-----0-----0-|-----0-----0----|---0-----0----0-|-----0-----0----|\nD|3-----2-----0---|---0-----0-----0|-5-----3----2---|---2-----2----2-|\nx2\n\n[Posmas - su distorsija]\nBPM:92\ne|---------------------------|--------|--------|-------|--------|\nB|---------------------------|--------|--------|-------|--------|\nG|---------------------------|------12|------10|------9|------7-|\nD|8---8--8-8---8-8---8-8-8-8-|-0000---|-0000---|-0000--|-0000---|\nA|8---8--8-8---8-8---8-8-8-8-|-0000-10|-0000-8-|-0000-7|-0000-5-|\nD|8---8--8-8---8-8---8-8-8-8-|-0000---|-0000---|-0000--|-0000---|\nx1\n\n[Priedainis - švarus tonas]\nBPM:92\n(tas pats rifas kaip įžangos gitaros dalyje)\nx2\n\n[Pabaigos dalis - su distorsija]\nBPM:92\ne|--------|---------|---------|---------|\nB|--------|---------|---------|---------|\nG|--------|---------|---------|---------|\nD|7-7-7-7-|-7-7-7-7-|-7-7-7-7-|-7-7-7-7-|\nA|7-7-7-7-|-7-7-7-7-|-7-7-7-7-|-7-7-7-7-|\nD|7-7-7-7-|-7-7-7-7-|-7-7-7-7-|-7-7-7-7-|\nx1",
@@ -477,8 +471,6 @@
       tuning:'dropD',
       status:'learning',
       difficulty:3,
-      bpm:124,
-      introOffset:0,
       youtube:'bWXazVhlyxQ',
       content:
 "[Įžanga - rifas]\nBPM:124\ne|-----|-----|-----|-----|-----|--------------------------|\nB|--3--|--3--|--3--|--3--|-----|--------------------------|\nG|--2--|--2--|--2--|--2--|-----|--------------------------|\nD|--0--|--0--|--0--|--0--|-----|--------------------------|\nA|--0--|--0--|--0--|--0--|--6--|--(6)---------------------|\nD|--0--|--0--|--0--|--0--|-----|--------------------------|\nx2\n\n[Posmas]\nBPM:124\ne|-------------------------------|-------------------------------|\nB|-------------------------------|-------------------------------|\nG|-------------------------------|-------------------------------|\nD|---------------3h4-------------|--------------3h4---------------|\nA|--0--3h5-x--x-----5--0-2h3-2---|--0--3h5-x--x-----5--0-2h3-2----|\nD|---0------x--x--------0-2h3-2--|--0------x--x--------0-2h3-2----|\nx1\n\n[Priedainis]\nBPM:124\ne|------------------------------|-------------------------------|\nB|------------------------------|-------------------------------|\nG|------------------------------|-------------------------------|\nD|-------------9-------------8--|-------------7------------------|\nA|--0--3h5-x-x----0--3h5-x-x----|--0--3h5-x-x--------2h3-2h3-2----|\nD|--0------x-x----0------x-x----|--0------x-x-----0--2h3-2h3-2----|\nx1\n\n[Tarpinė dalis]\nBPM:124\ne|----------------|--------------------------------------------|\nB|----------------|--------------------------------------------|\nG|---7--7-----7---|---7--7---x--7---x-x-x-x-x-x-x-x-x-x---------|\nD|----------------|----------x------x-x-x-x-x-x-x-x-x-x---------|\nA|---5--5-----5---|---5--5---x--5---x-x-x-x-x-x-x-x-x-x---------|\nD|----------------|--------------------------------------------|\nx1\n\n[Solo dalis]\nBPM:124\ne|---------------------------------------------------|\nB|---------------------------------------------------|\nG|--7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7-7--|\nD|---------------------------------------------------|\nA|--5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5-5--|\nD|---------------------------------------------------|\nx1",
@@ -493,8 +485,6 @@
       tuning:'dropD',
       status:'learning',
       difficulty:3,
-      bpm:94,
-      introOffset:0,
       youtube:'VUaM3psXB74',
       content:
 "[Įžanga - rifas 1]\nBPM:94\nD|-9-9--------7-7--------5-5--------4-4---7-7--|\nA|-7-7--------5-5--------3-3--------2-2---5-5--|\nD|-9-9--------7-7--------5-5--------4-4---7-7--|\nx1\n\n[Įžanga - rifas 2]\nBPM:94\nD|-----------9--------------------9-------------|\nA|-7-10-9-10---10-9-10--5-10-9-10---10-9-10-----|\nD|------------------------------------------------|\nx1\n\n[Posmas]\nBPM:94\nD|------------9--------------------9-------------|\nA|----10-9-10---10-9-10----10-9-10---10-9-10-----|\nD|-10--------------------9------------------------|\nx2\n\n[Priedainis]\nBPM:94\nG|-9-9-9-9-9-9-9-9--5-5-5-5-5-5-5-5--11-11-11-11-12-12-12-12--|\nD|-9-9-9-9-9-9-9-9--5-5-5-5-5-5-5-5------------------------------|\nA|-7-7-7-7-7-7-7-7--3-3-3-3-3-3-3-3--9--9--9--9--10-10-10-10--|\nx2\n\n[Tiltas]\nBPM:94\nG|-9-9-9-9-9-9-9-9--5-5-5-5-5-5-5-5---------------------------|\nD|-9-9-9-9-9-9-9-9--5-5-5-5-5-5-5-5--5-5-5-5-5-5-5-5--9-9-9-9-9-9-9-9-|\nA|-7-7-7-7-7-7-7-7--3-3-3-3-3-3-3-3--5-5-5-5-5-5-5-5--9-9-9-9-9-9-9-9-|\nx1",
@@ -522,23 +512,19 @@
   var genreFilter = 'all';
   var editingId = null;
 
-  /* ---------- rhythm-synced tab segments ---------- */
-  var timelineCache = {};
-  var followState = {};
-  var ytPlayers = {};
-
-  function parseSegments(text, defaultBpm){
+  /* ---------- tab segments (for readable section labels) ---------- */
+  function parseSegments(text){
     if(!text) return [];
     var chunks = String(text).split(/\n\s*\n/).map(function(c){ return c.trim(); }).filter(Boolean);
     return chunks.map(function(chunk){
       var lines = chunk.split('\n');
-      var label = null, bpm = defaultBpm||100;
+      var label = null;
       while(lines.length){
         var l = lines[0].trim();
         var lm = l.match(/^\[(.+)\]$/);
         var bm = l.match(/^BPM:\s*(\d+)/i);
         if(lm){ label = lm[1]; lines.shift(); continue; }
-        if(bm){ bpm = parseInt(bm[1],10); lines.shift(); continue; }
+        if(bm){ lines.shift(); continue; }
         break;
       }
       var repeat = 1;
@@ -548,144 +534,8 @@
         if(rm){ repeat = parseInt(rm[1],10); lines.pop(); }
       }
       var body = lines.join('\n').trim();
-      return { label:label, bpm:bpm, beats:4*repeat, repeatLabel:(repeat>1?('×'+repeat):''), text:body };
+      return { label:label, repeatLabel:(repeat>1?('×'+repeat):''), text:body };
     }).filter(function(seg){ return seg.text; });
-  }
-
-  function computeTimeline(segs){
-    var t = 0, bounds = [];
-    segs.forEach(function(seg){
-      var dur = seg.beats * (60/seg.bpm);
-      bounds.push({start:t, end:t+dur});
-      t += dur;
-    });
-    return {bounds:bounds, total:t};
-  }
-
-  function getTimeline(song){
-    if(!timelineCache[song.id]){
-      timelineCache[song.id] = computeTimeline(parseSegments(song.content, song.bpm||100));
-    }
-    return timelineCache[song.id];
-  }
-
-  function findActiveIndex(timeline, t){
-    for(var i=0;i<timeline.bounds.length;i++){
-      if(t < timeline.bounds[i].end) return i;
-    }
-    return timeline.bounds.length-1;
-  }
-
-  /* ---------- YouTube IFrame API ---------- */
-  function ensureYT(cb){
-    if(window.YT && window.YT.Player){ cb(); return; }
-    window._ytCallbacks = window._ytCallbacks || [];
-    window._ytCallbacks.push(cb);
-    if(window._ytLoading) return;
-    window._ytLoading = true;
-    var tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    document.head.appendChild(tag);
-    window.onYouTubeIframeAPIReady = function(){
-      (window._ytCallbacks||[]).forEach(function(f){ f(); });
-      window._ytCallbacks = [];
-    };
-  }
-  function initYTPlayer(song){
-    if(!song || !song.youtube || ytPlayers[song.id]) return;
-    ensureYT(function(){
-      var ph = document.getElementById('ytph-'+song.id);
-      if(!ph) return;
-      ytPlayers[song.id] = new YT.Player(ph, {
-        videoId: song.youtube,
-        host: 'https://www.youtube-nocookie.com',
-        playerVars:{rel:0, playsinline:1}
-      });
-    });
-  }
-
-  /* ---------- follow (rhythm-synced scroll) controller ---------- */
-  function stopFollow(id){
-    var st = followState[id];
-    if(!st) return;
-    if(st.timer) clearInterval(st.timer);
-    st.playing = false;
-    var btn = document.querySelector('[data-follow="'+id+'"]');
-    if(btn){ btn.classList.remove('on'); btn.innerHTML = ICO.play; }
-    var scrollEl = document.getElementById('tabscroll-'+id);
-    if(scrollEl) scrollEl.querySelectorAll('.tab-seg.active').forEach(function(e){ e.classList.remove('active'); });
-  }
-
-  function startFollow(song){
-    var id = song.id;
-    var timeline = getTimeline(song);
-    if(!timeline.bounds.length) return;
-    var st = followState[id] || (followState[id] = {});
-    st.playing = true;
-    st.mode = song.youtube ? 'yt' : 'clock';
-    if(st.mode==='clock'){
-      st.clockStart = performance.now();
-      st.clockBase = st.clockBase || 0;
-      st.speed = st.speed || 1;
-    }
-
-    var btn = document.querySelector('[data-follow="'+id+'"]');
-    if(btn){ btn.classList.add('on'); btn.innerHTML = ICO.pause; }
-
-    function tick(){
-      if(!followState[id] || !followState[id].playing) return;
-      var t = null;
-      if(st.mode==='yt'){
-        var p = ytPlayers[id];
-        if(p && typeof p.getPlayerState==='function' && p.getPlayerState()===1){
-          t = p.getCurrentTime() - (song.introOffset||0);
-        }
-      } else {
-        t = st.clockBase + (performance.now()-st.clockStart)/1000*st.speed;
-        if(t >= timeline.total){ st.clockStart = performance.now(); st.clockBase = 0; t = 0; }
-      }
-      if(t!=null && t>=0){
-        var scrollEl = document.getElementById('tabscroll-'+id);
-        if(scrollEl){
-          var idx = findActiveIndex(timeline, t);
-          var segEls = scrollEl.querySelectorAll('.tab-seg');
-          segEls.forEach(function(el,i){ el.classList.toggle('active', i===idx); });
-          var curSeg = segEls[idx];
-          if(curSeg){
-            var bounds = timeline.bounds[idx];
-            var segFrac = (bounds.end>bounds.start) ? Math.max(0,Math.min(1,(t-bounds.start)/(bounds.end-bounds.start))) : 0;
-            var curLeft = curSeg.offsetLeft;
-            var nextSeg = segEls[idx+1];
-            var targetLeft = nextSeg ?
-              curLeft + (nextSeg.offsetLeft-curLeft)*segFrac :
-              curLeft + curSeg.offsetWidth*segFrac;
-            scrollEl.scrollLeft = Math.max(0, targetLeft-24);
-          }
-        }
-      }
-    }
-
-    if(st.mode==='yt'){
-      initYTPlayer(song);
-      var wrap = document.getElementById('yt-'+id);
-      if(wrap) wrap.classList.add('show');
-      var ytBtn = document.querySelector('[data-yt="'+id+'"]');
-      if(ytBtn){ ytBtn.classList.add('on'); ytBtn.innerHTML = ICO.pause+' Klausytis'; }
-      var tries = 0;
-      (function waitPlayer(){
-        var p = ytPlayers[id];
-        if(p && typeof p.playVideo==='function'){
-          try{ p.playVideo(); }catch(e){}
-          tick();
-          st.timer = setInterval(tick, 120);
-        } else if(tries++ < 40){
-          setTimeout(waitPlayer, 150);
-        }
-      })();
-    } else {
-      tick();
-      st.timer = setInterval(tick, 120);
-    }
   }
 
   /* ---------- icons ---------- */
@@ -750,11 +600,6 @@
   function renderSongs(){
     var list = document.getElementById('songList');
 
-    /* full rebuild tears down any live players/follow loops - stop them cleanly first */
-    Object.keys(followState).forEach(function(id){ if(followState[id].playing) stopFollow(id); });
-    Object.keys(ytPlayers).forEach(function(id){ try{ ytPlayers[id].destroy(); }catch(e){} delete ytPlayers[id]; });
-    timelineCache = {};
-
     var filtered = songs.filter(function(s){
       return (statusFilter==='all' || s.status===statusFilter) &&
              (genreFilter==='all' || s.genre===genreFilter);
@@ -770,38 +615,6 @@
       var g = GENRES[s.genre] || GENRES.other;
       var st = STATUSES[s.status] || STATUSES.wishlist;
       var tn = TUNINGS[s.tuning] || TUNINGS.custom;
-      var segs = parseSegments(s.content, s.bpm||100);
-      var segHtml = segs.map(function(seg, i){
-        return '<div class="tab-seg" data-seg-idx="'+i+'">' +
-          (seg.label || seg.repeatLabel ? '<div class="seg-head">' +
-            (seg.label ? '<span class="seg-label">'+esc(seg.label)+'</span>' : '<span></span>') +
-            (seg.repeatLabel ? '<span class="seg-badge">'+seg.repeatLabel+'</span>' : '') +
-          '</div>' : '') +
-          '<div class="tabblock">'+esc(seg.text)+'</div>' +
-        '</div>';
-      }).join('');
-      var followBar = segs.length ? (
-        '<div class="follow-bar">' +
-          '<button class="fb-play" data-follow="'+s.id+'">'+ICO.play+'</button>' +
-          '<div class="fb-info"><b>Sekti tabą pagal ritmą</b>' +
-          (s.youtube ?
-            'sinchronizuota su video · poslinkis <span id="fboff-'+s.id+'">'+(s.introOffset||0).toFixed(1)+'s</span>' :
-            'metronomo režimas · <span id="fbbpm-'+s.id+'">'+Math.round(s.bpm||100)+'</span> BPM') +
-          '</div>' +
-          (s.youtube ?
-            '<div class="fb-nudge">' +
-              '<button data-nudge="-1" data-song="'+s.id+'">−1s</button>' +
-              '<button data-nudge="-0.1" data-song="'+s.id+'">−0.1</button>' +
-              '<button class="fb-calibrate" data-calibrate="'+s.id+'">Dabar!</button>' +
-              '<button data-nudge="0.1" data-song="'+s.id+'">+0.1</button>' +
-              '<button data-nudge="1" data-song="'+s.id+'">+1s</button>' +
-            '</div>' :
-            '<div class="fb-nudge">' +
-              '<button data-bpm="-5" data-song="'+s.id+'">−5</button>' +
-              '<button data-bpm="5" data-song="'+s.id+'">+5</button>' +
-            '</div>') +
-        '</div>'
-      ) : '';
       return '' +
       '<div class="song" style="border-left-color:'+g.color+'">' +
         '<div class="srow">' +
@@ -819,96 +632,18 @@
           diffDots(s.difficulty||0) +
         '</div>' +
         '<div class="actrow">' +
-          '<button class="btn-yt" data-yt="'+s.id+'">'+ICO.play+' Klausytis</button>' +
-          '<button class="btn-tab" data-tab-toggle="'+s.id+'">'+ICO.tab+' Tabas</button>' +
+          '<button class="btn-yt" data-open="'+s.id+'" data-autoplay="1">'+ICO.play+' Klausytis</button>' +
+          '<button class="btn-tab" data-open="'+s.id+'" data-autoplay="0">'+ICO.tab+' Tabas</button>' +
           '<button class="icon-btn" data-edit="'+s.id+'" style="flex:none;width:40px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2)">'+ICO.edit+'</button>' +
           '<button class="icon-btn" data-del="'+s.id+'" style="flex:none;width:40px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2);color:var(--danger)">'+ICO.trash+'</button>' +
-        '</div>' +
-        '<div class="yt-wrap" id="yt-'+s.id+'">' +
-          (s.youtube ? '<div id="ytph-'+s.id+'"></div>' : '') +
-        '</div>' +
-        '<div class="tab-wrap" id="tabwrap-'+s.id+'">' +
-          followBar +
-          '<div class="tab-scroll" id="tabscroll-'+s.id+'">' +
-            (segHtml || '<div class="tabblock">'+esc(s.content||'(Tabas dar nepridėtas.)')+'</div>') +
-          '</div>' +
-          (segs.length ? '<div class="scroll-hint">← gali paslinkti pirštu, arba paspausk „Sekti tabą" – slinks automatiškai →</div>' : '') +
-          (s.notes ? '<div class="tab-notes">'+esc(s.notes)+'</div>' : '') +
         '</div>' +
       '</div>';
     }).join('');
 
-    list.querySelectorAll('[data-yt]').forEach(function(btn){
+    list.querySelectorAll('[data-open]').forEach(function(btn){
       btn.addEventListener('click', function(){
-        var id = btn.dataset.yt;
-        var wrap = document.getElementById('yt-'+id);
-        var willShow = !wrap.classList.contains('show');
-        wrap.classList.toggle('show', willShow);
-        btn.classList.toggle('on', willShow);
-        btn.innerHTML = (willShow?ICO.pause:ICO.play)+' Klausytis';
-        if(willShow) initYTPlayer(songs.find(function(x){ return x.id===id; }));
-      });
-    });
-    list.querySelectorAll('[data-tab-toggle]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var id = btn.dataset.tabToggle;
-        var wrap = document.getElementById('tabwrap-'+id);
-        var willShow = !wrap.classList.contains('show');
-        wrap.classList.toggle('show', willShow);
-        btn.classList.toggle('on', willShow);
-      });
-    });
-    list.querySelectorAll('[data-follow]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var id = btn.dataset.follow;
-        var song = songs.find(function(x){ return x.id===id; });
-        if(followState[id] && followState[id].playing) stopFollow(id);
-        else startFollow(song);
-      });
-    });
-    list.querySelectorAll('[data-nudge]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var id = btn.dataset.song;
-        var s = songs.find(function(x){ return x.id===id; });
-        if(!s) return;
-        s.introOffset = Math.max(0, Number(((s.introOffset||0)+Number(btn.dataset.nudge)).toFixed(2)));
-        saveSongs();
-        var lbl = document.getElementById('fboff-'+id);
-        if(lbl) lbl.textContent = s.introOffset.toFixed(1)+'s';
-      });
-    });
-    list.querySelectorAll('[data-calibrate]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var id = btn.dataset.calibrate;
-        var s = songs.find(function(x){ return x.id===id; });
-        var p = ytPlayers[id];
-        if(!s || !p || typeof p.getCurrentTime!=='function'){
-          alert('Pirmiausia paleisk vaizdo įrašą (paspausk „Klausytis“ arba „Sekti tabą“).');
-          return;
-        }
-        s.introOffset = Number(p.getCurrentTime().toFixed(2));
-        saveSongs();
-        var lbl = document.getElementById('fboff-'+id);
-        if(lbl) lbl.textContent = s.introOffset.toFixed(1)+'s';
-      });
-    });
-    list.querySelectorAll('[data-bpm]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var id = btn.dataset.song;
-        var s = songs.find(function(x){ return x.id===id; });
-        if(!s) return;
-        var base = s.bpm||100;
-        var st = followState[id] || (followState[id] = {speed:1});
-        var currentBpm = Math.round(base*(st.speed||1));
-        var newBpm = Math.max(30, currentBpm+Number(btn.dataset.bpm));
-        if(st.playing && st.mode==='clock'){
-          var elapsedNow = (st.clockBase||0) + (performance.now()-st.clockStart)/1000*(st.speed||1);
-          st.clockBase = elapsedNow;
-          st.clockStart = performance.now();
-        }
-        st.speed = newBpm/base;
-        var lbl = document.getElementById('fbbpm-'+id);
-        if(lbl) lbl.textContent = newBpm;
+        var song = songs.find(function(x){ return x.id===btn.dataset.open; });
+        if(song) openFullView(song, btn.dataset.autoplay==='1');
       });
     });
     list.querySelectorAll('[data-edit]').forEach(function(btn){
@@ -928,6 +663,39 @@
     });
   }
 
+  /* ---------- full-screen song view ---------- */
+  var fullOverlay = document.getElementById('fullOverlay');
+  function closeFullView(){
+    fullOverlay.classList.remove('show');
+    document.getElementById('fullBody').innerHTML = '';
+  }
+  document.getElementById('fullClose').addEventListener('click', closeFullView);
+
+  function openFullView(song, autoplay){
+    document.getElementById('fullTitle').textContent = song.title;
+    document.getElementById('fullArtist').textContent = song.artist + (song.album ? ' · '+song.album : '');
+
+    var ytHtml = song.youtube ?
+      '<div class="full-yt"><iframe src="https://www.youtube-nocookie.com/embed/'+esc(song.youtube)+'?rel=0'+(autoplay?'&autoplay=1':'')+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>' : '';
+
+    var segs = parseSegments(song.content);
+    var segHtml = segs.map(function(seg){
+      return '<div class="tab-seg">' +
+        (seg.label || seg.repeatLabel ? '<div class="seg-head">' +
+          (seg.label ? '<span class="seg-label">'+esc(seg.label)+'</span>' : '<span></span>') +
+          (seg.repeatLabel ? '<span class="seg-badge">'+seg.repeatLabel+'</span>' : '') +
+        '</div>' : '') +
+        '<div class="tabblock">'+esc(seg.text)+'</div>' +
+      '</div>';
+    }).join('');
+
+    document.getElementById('fullBody').innerHTML = ytHtml +
+      (segHtml || '<div class="tabblock">'+esc(song.content||'(Tabas dar nepridėtas.)')+'</div>') +
+      (song.notes ? '<div class="tab-notes">'+esc(song.notes)+'</div>' : '');
+
+    fullOverlay.classList.add('show');
+  }
+
   /* ---------- overlay / sheet ---------- */
   var overlay = document.getElementById('overlay');
   var sheetEl = document.getElementById('sheet');
@@ -942,7 +710,7 @@
     editingId = id;
     var s = id ? songs.find(function(x){ return x.id===id; }) : null;
     var isEdit = !!s;
-    s = s || {title:'',artist:'',album:'',genre:'metal',tuning:'standard',status:'learning',difficulty:3,youtube:'',content:'',notes:'',bpm:100,introOffset:0};
+    s = s || {title:'',artist:'',album:'',genre:'metal',tuning:'standard',status:'learning',difficulty:3,youtube:'',content:'',notes:''};
 
     var genreChips = Object.keys(GENRES).map(function(k){
       return '<button type="button" class="chip'+(s.genre===k?' on':'')+'" data-field="genre" data-val="'+k+'">'+GENRES[k].label+'</button>';
@@ -968,11 +736,9 @@
       '<div class="field"><label>Statusas</label><div class="chips" id="f-status">'+statusChips+'</div></div>' +
       '<div class="field"><label>Sudėtingumas (1–5)</label><div class="chips" id="f-difficulty">'+diffChips+'</div></div>' +
       '<div class="field"><label>YouTube video ID arba nuoroda (nebūtina)</label><input id="f-youtube" value="'+esc(s.youtube)+'" placeholder="pvz. dQw4w9WgXcQ arba pilna nuoroda"></div>' +
-      '<div class="field"><label>Tempas (BPM)</label><input id="f-bpm" type="number" min="30" max="300" value="'+(s.bpm||100)+'"></div>' +
       '<div class="field"><label>Akordai / tabas (be dainos žodžių)</label><textarea id="f-content" class="mono" placeholder="Įklijuok akordų seką arba TAB notaciją...">'+esc(s.content)+'</textarea>' +
-        '<div class="content-hint">Nori, kad tabas slinktųsi pagal ritmą? Atskirk kiekvieną rifą/eilutę <b>tuščia eilute</b>. '+
-        'Prieš rifą gali įrašyti <code>[Pavadinimas]</code> sekcijai ir/ar <code>BPM:100</code> jei tempas skiriasi, '+
-        'o paskutinėje segmento eilutėje <code>x4</code> jei kartojasi 4 kartus.</div>' +
+        '<div class="content-hint">Nori suskirstyti į dalis? Atskirk kiekvieną rifą <b>tuščia eilute</b>, prieš rifą įrašyk '+
+        '<code>[Pavadinimas]</code> (pvz. [Posmas]), o paskutinėje eilutėje <code>x4</code> jei kartojasi 4 kartus.</div>' +
       '</div>' +
       '<div class="field"><label>Pastabos (nebūtina)</label><textarea id="f-notes" placeholder="Grojimo patarimai, strumo raštas ir t.t.">'+esc(s.notes)+'</textarea></div>' +
       '<button class="save" id="saveSong">Išsaugoti</button>' +
@@ -1008,8 +774,6 @@
         status: statusBtn ? statusBtn.dataset.val : 'learning',
         difficulty: diffBtn ? Number(diffBtn.dataset.val) : 3,
         youtube: yt,
-        bpm: Number(document.getElementById('f-bpm').value) || 100,
-        introOffset: isEdit ? (s.introOffset||0) : 0,
         content: document.getElementById('f-content').value,
         notes: document.getElementById('f-notes').value.trim()
       };
