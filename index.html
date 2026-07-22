@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>Mano gitara</title>
+<meta name="description" content="Dainų tabai, akordai, derinimas ir naujų dainų paieška.">
+<meta name="theme-color" content="#0b0b0d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mano gitara">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+</head>
+<body>
+<style>
+  :root{
+    --bg:#0b0b0d; --surface:#17171b; --surface-2:#1e1e23; --raise:#26262c;
+    --border:rgba(255,255,255,.08); --border-2:rgba(255,255,255,.16);
+    --text:#f2f2f4; --dim:#9a9aa3; --faint:#65656d;
+    --accent:#e21c34; --accent-ink:#fff; --accent-dim:#a5152a;
+    --danger:#ff3b3b; --good:#34c77b;
+    --shadow:0 10px 34px rgba(0,0,0,.6);
+    --r:8px; --r-sm:5px;
+    --g-metal:#e21c34; --g-rock:#ff8a3d; --g-alt:#8a63ff; --g-acoustic:#34c77b; --g-punk:#f5c518; --g-other:#9a9aa3;
+    --fs-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:light){
+    :root{
+      --bg:#eceef0; --surface:#ffffff; --surface-2:#e4e6e9; --raise:#d9dbdf;
+      --border:rgba(0,0,0,.10); --border-2:rgba(0,0,0,.18);
+      --text:#15161a; --dim:#5b5e66; --faint:#8b8e95;
+      --accent:#c81530; --accent-ink:#fff; --accent-dim:#9e1026;
+      --danger:#c62828; --good:#1f8a54;
+      --shadow:0 10px 30px rgba(0,0,0,.15);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0b0b0d; --surface:#17171b; --surface-2:#1e1e23; --raise:#26262c;
+    --border:rgba(255,255,255,.08); --border-2:rgba(255,255,255,.16);
+    --text:#f2f2f4; --dim:#9a9aa3; --faint:#65656d;
+    --accent:#e21c34; --accent-ink:#fff; --accent-dim:#a5152a;
+    --danger:#ff3b3b; --good:#34c77b; --shadow:0 10px 34px rgba(0,0,0,.6);
+  }
+  :root[data-theme="light"]{
+    --bg:#eceef0; --surface:#ffffff; --surface-2:#e4e6e9; --raise:#d9dbdf;
+    --border:rgba(0,0,0,.10); --border-2:rgba(0,0,0,.18);
+    --text:#15161a; --dim:#5b5e66; --faint:#8b8e95;
+    --accent:#c81530; --accent-ink:#fff; --accent-dim:#9e1026;
+    --danger:#c62828; --good:#1f8a54; --shadow:0 10px 30px rgba(0,0,0,.15);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:var(--fs-sans);-webkit-font-smoothing:antialiased}
+  body{min-height:100dvh}
+  button{font-family:inherit;cursor:pointer}
+  input,textarea,select{font-family:inherit}
+  ::selection{background:var(--accent);color:var(--accent-ink)}
+
+  .app{max-width:520px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;
+    background:var(--bg);position:relative}
+
+  /* top bar */
+  .topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
+    padding:calc(env(safe-area-inset-top) + 12px) 18px 12px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:9px;flex:1;min-width:0}
+  .mark{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--accent),var(--accent-dim));
+    flex:none;display:grid;place-items:center;color:#fff;font-weight:900;font-size:14px;letter-spacing:-.02em;
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 60%,#000)}
+  .brand h1{font-size:15px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+  .brand h1 span{color:var(--accent)}
+  .theme-btn{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);
+    background:var(--surface);color:var(--dim);display:grid;place-items:center;font-size:15px}
+  .theme-btn:active{transform:scale(.94)}
+
+  /* screen */
+  main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+    padding:18px 16px calc(96px + env(safe-area-inset-bottom))}
+  .screen{display:none;animation:fade .22s ease}
+  .screen.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  .head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px}
+  .head h2{font-size:22px;font-weight:850;letter-spacing:-.01em;text-transform:uppercase}
+  .head .sub{font-size:12.5px;color:var(--dim);margin-top:3px;letter-spacing:.02em}
+  .add-btn{flex:none;border:none;background:var(--accent);color:var(--accent-ink);
+    font-weight:800;font-size:13.5px;padding:9px 15px;border-radius:var(--r-sm);letter-spacing:.02em;
+    text-transform:uppercase;display:flex;align-items:center;gap:6px}
+  .add-btn:active{transform:scale(.96);background:var(--accent-dim)}
+  .add-btn .plus{font-size:16px;line-height:1;margin-top:-1px}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r)}
+
+  /* filter chips */
+  .chiprow{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+  .chip{border:1px solid var(--border);background:var(--surface);color:var(--dim);
+    font-size:12px;font-weight:700;padding:7px 12px;border-radius:20px;letter-spacing:.01em;
+    text-transform:uppercase;white-space:nowrap}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .chip:active{transform:scale(.96)}
+
+  .empty{text-align:center;color:var(--faint);font-size:13.5px;line-height:1.6;
+    padding:44px 24px;border:1px dashed var(--border-2);border-radius:var(--r);background:var(--surface)}
+  .empty svg{width:32px;height:32px;margin-bottom:10px;opacity:.5}
+
+  /* song cards */
+  .list{display:flex;flex-direction:column;gap:10px}
+  .song{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--g-other);
+    border-radius:var(--r);padding:14px 15px;position:relative}
+  .song .srow{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .song .title{font-size:16px;font-weight:800;letter-spacing:-.005em}
+  .song .artist{font-size:13px;color:var(--dim);margin-top:2px}
+  .song .icons{display:flex;gap:4px;flex:none}
+  .song .icon-btn{width:28px;height:28px;border-radius:7px;border:none;background:transparent;
+    color:var(--faint);display:grid;place-items:center}
+  .song .icon-btn:active{background:var(--surface-2)}
+  .song .icon-btn svg{width:16px;height:16px}
+  .genre-pill{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    padding:3px 8px;border-radius:6px;color:#fff}
+  .meta-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .meta-pill{font-size:11px;font-weight:700;letter-spacing:.03em;padding:4px 9px;border-radius:6px;
+    background:var(--surface-2);color:var(--dim);border:1px solid var(--border)}
+  .meta-pill.status-learning{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 40%,var(--border))}
+  .meta-pill.status-learned{color:var(--good);border-color:color-mix(in srgb,var(--good) 40%,var(--border))}
+  .dots{display:inline-flex;align-items:center;gap:3px;padding:4px 2px}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--faint)}
+  .dot.on{background:var(--accent)}
+  .actrow{display:flex;gap:8px;margin-top:12px}
+  .actrow button{flex:1;border:1px solid var(--border);background:var(--surface-2);color:var(--text);
+    font-size:12.5px;font-weight:700;padding:10px 8px;border-radius:var(--r-sm);display:flex;align-items:center;
+    justify-content:center;gap:6px;min-height:40px;text-transform:uppercase;letter-spacing:.02em}
+  .actrow button:active{background:var(--raise);transform:scale(.98)}
+  .actrow button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .actrow svg{width:15px;height:15px}
+  .yt-wrap{margin-top:10px;border-radius:var(--r-sm);overflow:hidden;background:#000;display:none}
+  .yt-wrap.show{display:block}
+  .yt-wrap iframe{width:100%;aspect-ratio:16/9;display:block;border:none}
+  .tab-wrap{margin-top:10px;display:none}
+  .tab-wrap.show{display:block}
+  .tabblock{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-sm);
+    padding:12px 13px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;
+    line-height:1.55;white-space:pre;overflow-x:auto;color:var(--text)}
+  .tab-note{font-size:11.5px;color:var(--faint);margin-top:8px;line-height:1.5}
+  .tab-notes{font-size:12.5px;color:var(--dim);margin-top:8px;line-height:1.5;font-style:italic}
+
+  /* tuner */
+  .tuning-select{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;margin-bottom:18px}
+  .string-list{display:flex;flex-direction:column;gap:9px}
+  .string-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+    padding:13px 15px;display:flex;align-items:center;gap:13px}
+  .string-row .snum{width:30px;height:30px;border-radius:50%;background:var(--surface-2);border:1px solid var(--border);
+    display:grid;place-items:center;font-weight:800;font-size:13px;flex:none;color:var(--accent)}
+  .string-row .sinfo{flex:1;min-width:0}
+  .string-row .sname{font-size:15px;font-weight:750}
+  .string-row .sfreq{font-size:11.5px;color:var(--faint);margin-top:2px;font-variant-numeric:tabular-nums}
+  .string-row .play{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--accent);
+    background:transparent;color:var(--accent);display:grid;place-items:center;flex:none;transition:.15s}
+  .string-row .play svg{width:18px;height:18px}
+  .string-row .play.on{background:var(--accent);color:var(--accent-ink);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 18%,transparent)}
+  .tuner-hint{font-size:12.5px;color:var(--faint);line-height:1.6;margin-top:18px;text-align:center}
+
+  /* search */
+  .search-box{display:flex;gap:8px;margin-bottom:16px}
+  .search-box input{flex:1;background:var(--surface);color:var(--text);border:1px solid var(--border);
+    border-radius:var(--r-sm);padding:13px 14px;font-size:15px;outline:none}
+  .search-box input:focus{border-color:var(--accent)}
+  .search-box button{flex:none;border:none;background:var(--accent);color:var(--accent-ink);
+    font-weight:800;padding:0 18px;border-radius:var(--r-sm);text-transform:uppercase;font-size:13px;letter-spacing:.02em}
+  .search-box button:active{background:var(--accent-dim)}
+  .search-link{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 15px;
+    margin-bottom:10px;text-decoration:none;color:var(--text)}
+  .search-link:active{background:var(--surface-2)}
+  .search-link .sl-name{font-weight:750;font-size:14.5px}
+  .search-link .sl-desc{font-size:12px;color:var(--faint);margin-top:2px}
+  .search-link svg{width:17px;height:17px;color:var(--faint);flex:none}
+  .search-note{background:var(--surface);border:1px dashed var(--border-2);border-radius:var(--r);
+    padding:15px 16px;margin-top:18px;font-size:12.5px;color:var(--dim);line-height:1.6}
+  .search-note b{color:var(--text)}
+
+  /* reference screen */
+  .ref-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:4px 15px;margin-bottom:14px}
+  .ref-card h4{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:14px 0 8px}
+  .ref-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--border);font-size:14px}
+  .ref-row:first-of-type{border-top:none}
+  .ref-row .rk{color:var(--dim)} .ref-row .rvv{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:13px 14px}
+  .stat .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+  .stat .v{font-size:20px;font-weight:800;margin-top:5px;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+  .stat .v.accent{color:var(--accent)}
+
+  /* bottom nav */
+  nav{position:fixed;left:0;right:0;bottom:0;z-index:30;
+    background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(14px);
+    border-top:1px solid var(--border);display:flex;
+    padding:8px 6px calc(8px + env(safe-area-inset-bottom));max-width:520px;margin:0 auto}
+  .tab{flex:1;background:none;border:none;color:var(--faint);display:flex;flex-direction:column;
+    align-items:center;gap:4px;padding:5px 2px;border-radius:10px;transition:color .15s}
+  .tab svg{width:22px;height:22px}
+  .tab span{font-size:9.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
+  .tab.on{color:var(--accent)}
+  .tab:active{transform:scale(.93)}
+
+  /* modal / sheet */
+  .overlay{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.6);
+    display:none;align-items:flex-end;justify-content:center}
+  .overlay.show{display:flex;animation:ov .2s ease}
+  @keyframes ov{from{opacity:0}to{opacity:1}}
+  .sheet{width:100%;max-width:520px;max-height:92dvh;overflow-y:auto;background:var(--bg);
+    border-radius:16px 16px 0 0;border:1px solid var(--border);border-bottom:none;
+    padding:8px 18px calc(24px + env(safe-area-inset-bottom));box-shadow:var(--shadow);
+    animation:up .26s cubic-bezier(.2,.8,.2,1)}
+  @keyframes up{from{transform:translateY(100%)}to{transform:none}}
+  .grab{width:38px;height:4px;border-radius:2px;background:var(--border-2);margin:8px auto 6px}
+  .sheet-head{display:flex;align-items:center;justify-content:space-between;margin:6px 0 18px}
+  .sheet-head h3{font-size:19px;font-weight:800;letter-spacing:-.01em;text-transform:uppercase}
+  .x{width:32px;height:32px;border-radius:9px;border:none;background:var(--surface);color:var(--dim);
+    display:grid;place-items:center;font-size:18px}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--dim);margin-bottom:6px}
+  .field input,.field textarea{width:100%;background:var(--surface);color:var(--text);
+    border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 13px;font-size:16px;outline:none}
+  .field input:focus,.field textarea:focus{border-color:var(--accent)}
+  .field textarea{min-height:74px;resize:vertical;line-height:1.5}
+  .field textarea.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;min-height:130px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin:-4px 0 4px}
+  .save{width:100%;border:none;background:var(--accent);color:var(--accent-ink);font-weight:800;
+    font-size:15px;padding:14px;border-radius:var(--r-sm);margin-top:6px;letter-spacing:.03em;text-transform:uppercase}
+  .save:active{transform:scale(.98);background:var(--accent-dim)}
+  .del-link{width:100%;border:none;background:transparent;color:var(--danger);font-weight:700;
+    font-size:13.5px;padding:12px;margin-top:8px;text-align:center}
+  .hint{font-size:12px;color:var(--faint);margin-top:10px;text-align:center;line-height:1.5}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  #splash{position:fixed;inset:0;z-index:9999;background:#0a0a0a;display:flex;
+    flex-direction:column;align-items:center;justify-content:center;gap:16px;
+    transition:opacity .45s ease;}
+  #splash.hide{opacity:0;pointer-events:none}
+  #splash .smark{width:74px;height:74px;border-radius:18px;background:linear-gradient(135deg,var(--accent),var(--accent-dim));
+    display:grid;place-items:center;color:#fff;font-weight:900;font-size:34px;box-shadow:0 14px 40px rgba(226,28,52,.35)}
+  #splash .swirl{font-size:15px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+  #splash .swirl span{color:var(--accent)}
+</style>
+
+<div id="splash" aria-hidden="true">
+  <div class="smark">G</div>
+  <div class="swirl">Mano<span>gitara</span></div>
+</div>
+
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <div class="mark">G</div>
+      <h1>Mano<span>gitara</span></h1>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="Perjungti temą">◐</button>
+  </div>
+
+  <main>
+    <!-- MANO DAINOS -->
+    <section class="screen active" id="s-songs">
+      <div class="head">
+        <div><h2>Mano dainos</h2><div class="sub" id="songsSub">—</div></div>
+        <button class="add-btn" data-add="song"><span class="plus">+</span>Pridėti</button>
+      </div>
+      <div class="chiprow" id="statusFilter">
+        <button class="chip on" data-status="all">Visos</button>
+        <button class="chip" data-status="learning">Mokausi</button>
+        <button class="chip" data-status="learned">Išmokta</button>
+        <button class="chip" data-status="wishlist">Noriu išmokti</button>
+      </div>
+      <div class="chiprow" id="genreFilter">
+        <button class="chip on" data-genre="all">Visi žanrai</button>
+        <button class="chip" data-genre="metal">Metal</button>
+        <button class="chip" data-genre="rock">Rock</button>
+        <button class="chip" data-genre="alt">Alternatyvi</button>
+        <button class="chip" data-genre="acoustic">Akustinė</button>
+        <button class="chip" data-genre="punk">Punk</button>
+        <button class="chip" data-genre="other">Kita</button>
+      </div>
+      <div class="list" id="songList"></div>
+    </section>
+
+    <!-- PAIEŠKA -->
+    <section class="screen" id="s-search">
+      <div class="head">
+        <div><h2>Paieška</h2><div class="sub">Rask naujus tabus internete</div></div>
+      </div>
+      <div class="search-box">
+        <input id="searchInput" placeholder="Atlikėjas – daina" autocomplete="off">
+        <button id="searchBtn">Ieškoti</button>
+      </div>
+      <div id="searchResults"></div>
+      <div class="search-note">
+        Radus tinkamą tabą, gali <b>papildomai paprašyti manęs (Claude)</b> pokalbyje jį patikrinti, suformatuoti ir įtraukti tiesiai į „Mano dainas“ – tiesiog atsiųsk pavadinimą ar nuorodą.
+        Arba pridėk pats žemiau esančiu mygtuku.
+      </div>
+      <button class="add-btn" style="margin-top:14px;width:100%;justify-content:center" data-add="song">
+        <span class="plus">+</span>Pridėti dainą rankiniu būdu
+      </button>
+    </section>
+
+    <!-- DERINIMAS -->
+    <section class="screen" id="s-tuner">
+      <div class="head">
+        <div><h2>Derinimas</h2><div class="sub">Atskaitos tonai gitaros derinimui</div></div>
+      </div>
+      <div class="tuning-select" id="tuningSelect"></div>
+      <div class="string-list" id="stringList"></div>
+      <div class="tuner-hint">Paspausk stygos mygtuką ir palygink su savo gitaros garsu. Toną galima sustabdyti antru paspaudimu.</div>
+    </section>
+
+    <!-- ŽINYNAS -->
+    <section class="screen" id="s-ref">
+      <div class="head">
+        <div><h2>Žinynas</h2><div class="sub">Derinimai ir statistika</div></div>
+      </div>
+      <div class="stats" id="libStats"></div>
+      <div class="ref-card">
+        <h4>Derinimai</h4>
+        <div id="tuningRef"></div>
+      </div>
+    </section>
+  </main>
+
+  <nav>
+    <button class="tab on" data-tab="songs">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2c-3.6 0-7 3.4-7 8 0 4.2 2.9 7.5 6.2 9.4a1.6 1.6 0 0 0 1.6 0C16.1 17.5 19 14.2 19 10c0-4.6-3.4-8-7-8Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+      <span>Dainos</span>
+    </button>
+    <button class="tab" data-tab="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <span>Paieška</span>
+    </button>
+    <button class="tab" data-tab="tuner">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 19V9M10 19V4M15 19v-7M20 19v-4"/></svg>
+      <span>Derinimas</span>
+    </button>
+    <button class="tab" data-tab="ref">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+      <span>Žinynas</span>
+    </button>
+  </nav>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- data ---------- */
+  var GENRES = {
+    metal:{label:'Metal', color:'var(--g-metal)'},
+    rock:{label:'Rock', color:'var(--g-rock)'},
+    alt:{label:'Alternatyvi', color:'var(--g-alt)'},
+    acoustic:{label:'Akustinė', color:'var(--g-acoustic)'},
+    punk:{label:'Punk', color:'var(--g-punk)'},
+    other:{label:'Kita', color:'var(--g-other)'}
+  };
+  var STATUSES = {
+    learning:{label:'Mokausi', cls:'status-learning'},
+    learned:{label:'Išmokta', cls:'status-learned'},
+    wishlist:{label:'Noriu išmokti', cls:''}
+  };
+  var TUNINGS = {
+    standard:{label:'Standard', full:'E A D G B e', strings:[
+      {name:'E', label:'6 styga · E (žema)', freq:82.41},
+      {name:'A', label:'5 styga · A', freq:110.00},
+      {name:'D', label:'4 styga · D', freq:146.83},
+      {name:'G', label:'3 styga · G', freq:196.00},
+      {name:'B', label:'2 styga · B', freq:246.94},
+      {name:'e', label:'1 styga · e (plona)', freq:329.63}
+    ]},
+    dropD:{label:'Drop D', full:'D A D G B e', strings:[
+      {name:'D', label:'6 styga · D (žema)', freq:73.42},
+      {name:'A', label:'5 styga · A', freq:110.00},
+      {name:'D', label:'4 styga · D', freq:146.83},
+      {name:'G', label:'3 styga · G', freq:196.00},
+      {name:'B', label:'2 styga · B', freq:246.94},
+      {name:'e', label:'1 styga · e (plona)', freq:329.63}
+    ]},
+    dropC:{label:'Drop C', full:'C G C F A D', strings:[
+      {name:'C', label:'6 styga · C (žema)', freq:65.41},
+      {name:'G', label:'5 styga · G', freq:98.00},
+      {name:'C', label:'4 styga · C', freq:130.81},
+      {name:'F', label:'3 styga · F', freq:174.61},
+      {name:'A', label:'2 styga · A', freq:220.00},
+      {name:'D', label:'1 styga · D (plona)', freq:293.66}
+    ]},
+    halfDown:{label:'Pusiau žemiau', full:'Eb Ab Db Gb Bb eb', strings:[
+      {name:'Eb', label:'6 styga · Eb (žema)', freq:77.78},
+      {name:'Ab', label:'5 styga · Ab', freq:103.83},
+      {name:'Db', label:'4 styga · Db', freq:138.59},
+      {name:'Gb', label:'3 styga · Gb', freq:185.00},
+      {name:'Bb', label:'2 styga · Bb', freq:233.08},
+      {name:'eb', label:'1 styga · eb (plona)', freq:311.13}
+    ]},
+    custom:{label:'Kita', full:'', strings:[]}
+  };
+
+  var SEED_SONGS = [
+    {
+      id:'seed-in-the-flesh',
+      title:'In The Flesh?',
+      artist:'Pink Floyd',
+      album:'The Wall',
+      genre:'rock',
+      tuning:'standard',
+      status:'learning',
+      difficulty:2,
+      youtube:'8urkDqSoc54',
+      content:
+"ĮŽANGA\nA\n\nPOSMAS (kartojasi x3 – tas pats akordų ciklas kiekvienam posmui)\nA          D\nA          D\nA\nBm\nC#m\nE\n\nPilna koncertinė versija (\"In The Flesh\") su choro pagrojimu prieš kiekvieną posmą:\nA – D – A – D – A – Bm – C#m – E",
+      notes:'Studijinė versija groja tik įžangos akordą A prieš pirmą posmą. Koncertinėje versijoje prieš kiekvieną posmą groja pilnas ciklas su choru.'
+    },
+    {
+      id:'seed-aerials',
+      title:'Aerials',
+      artist:'System of a Down',
+      album:'Toxicity',
+      genre:'metal',
+      tuning:'dropC',
+      status:'learning',
+      difficulty:4,
+      youtube:'L-iepu3EtyE',
+      content:
+"DERINIMAS: Drop C (C G C F A D)\n\nĮŽANGA (švarus tonas, \"let ring\")\ne|----------------|----------------|----------------|----------------|\nB|----------------|----------------|----------------|----------------|\nG|----------------|----------------|----------------|----------------|\nD|----0-----0-----|-0-----0-----0--|-----0-----0----|-0-----0-----0--|\nA|--0-----0-----0-|-----0-----0----|---0-----0----0-|-----0-----0----|\nD|3-----2-----0---|---0-----0-----0|-5-----3----2---|---2-----2----2-|\n\n(apytikslė transkripcija pagal tavo užrašus ir viešus šaltinius – palygink pirštuotę su originaliu įrašu)",
+      notes:'Groti švariu (clean) tonu, leisti stygoms skambėti (let ring). Rifas kartojasi su nedidelėmis variacijomis prieš kiekvieną posmą.'
+    },
+    {
+      id:'seed-killing-in-the-name',
+      title:'Killing in the Name',
+      artist:'Rage Against the Machine',
+      album:'Rage Against the Machine',
+      genre:'metal',
+      tuning:'dropD',
+      status:'learning',
+      difficulty:3,
+      youtube:'bWXazVhlyxQ',
+      content:
+"DERINIMAS: Dropped D (D A D G B e)\n\nPAGRINDINIS RIFAS (įžanga, ~120 BPM)\ne|--3--|--3--|--3--|--3--|--------|\nB|--3--|--3--|--3--|--3--|--------|\nG|--2--|--2--|--2--|--2--|--------|\nD|--0--|--0--|--0--|--0--|--------|\nA|--0--|--0--|--0--|--0--|--6-----|\nD|--0--|--0--|--0--|--0--|--------|\n\nGROOVE / TARPINĖ DALIS (H = hammer-on, P = pull-off, X = prislopinta styga)\ne|---------------------|\nB|---------------------|\nG|---------------------|\nD|--3--5--(H)--(P)------|\nA|--0--X-------3--4--0--|\nD|-----X----------------|\n\n(pagal tavo užrašus – patikrink ypač vidurinę dalį su originaliu įrašu)",
+      notes:'Klasikinis rifas – žema D styga tylinama delnu (palm mute), akcentuoti kirčiuotas natas. Groove dalis kartojasi per visą kūrinį su nedidelėm variacijomis.'
+    }
+  ];
+
+  var STORAGE_KEY = 'manogitara.songs.v1';
+  var THEME_KEY = 'manogitara.theme';
+
+  var songs = [];
+  function loadSongs(){
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      try{ songs = JSON.parse(raw); return; }catch(e){}
+    }
+    songs = JSON.parse(JSON.stringify(SEED_SONGS));
+    saveSongs();
+  }
+  function saveSongs(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(songs));
+  }
+
+  var statusFilter = 'all';
+  var genreFilter = 'all';
+  var expandedTab = {};
+  var expandedYt = {};
+  var editingId = null;
+
+  /* ---------- icons ---------- */
+  var ICO = {
+    play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
+    pause:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="5" width="4" height="14"/><rect x="13" y="5" width="4" height="14"/></svg>',
+    tab:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg>',
+    edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>',
+    trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></path></svg>',
+    link:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3h7v7"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>',
+    empty:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2c-3.6 0-7 3.4-7 8 0 4.2 2.9 7.5 6.2 9.4a1.6 1.6 0 0 0 1.6 0C16.1 17.5 19 14.2 19 10c0-4.6-3.4-8-7-8Z"/><circle cx="12" cy="10" r="2.6"/></svg>'
+  };
+  ICO.trash = ICO.trash.replace('</path>','');
+
+  /* ---------- helpers ---------- */
+  function esc(s){
+    return String(s==null?'':s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function diffDots(n){
+    var out='';
+    for(var i=1;i<=5;i++) out += '<span class="dot'+(i<=n?' on':'')+'"></span>';
+    return '<span class="dots">'+out+'</span>';
+  }
+
+  /* ---------- tabs / nav ---------- */
+  document.querySelectorAll('.tab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(b){ b.classList.remove('on'); });
+      document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+      btn.classList.add('on');
+      document.getElementById('s-'+btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* ---------- theme ---------- */
+  var themeBtn = document.getElementById('themeBtn');
+  var theme = localStorage.getItem(THEME_KEY) || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  document.documentElement.setAttribute('data-theme', theme);
+  themeBtn.addEventListener('click', function(){
+    theme = theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem(THEME_KEY, theme);
+    document.documentElement.setAttribute('data-theme', theme);
+  });
+
+  /* ---------- filters ---------- */
+  document.getElementById('statusFilter').addEventListener('click', function(e){
+    var btn = e.target.closest('.chip'); if(!btn) return;
+    statusFilter = btn.dataset.status;
+    this.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on', b===btn); });
+    renderSongs();
+  });
+  document.getElementById('genreFilter').addEventListener('click', function(e){
+    var btn = e.target.closest('.chip'); if(!btn) return;
+    genreFilter = btn.dataset.genre;
+    this.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on', b===btn); });
+    renderSongs();
+  });
+
+  /* ---------- render songs ---------- */
+  function renderSongs(){
+    var list = document.getElementById('songList');
+    var filtered = songs.filter(function(s){
+      return (statusFilter==='all' || s.status===statusFilter) &&
+             (genreFilter==='all' || s.genre===genreFilter);
+    });
+    document.getElementById('songsSub').textContent = songs.length + ' daina(-os) bibliotekoje';
+
+    if(!filtered.length){
+      list.innerHTML = '<div class="empty">'+ICO.empty+'<div>Dainų nerasta pagal pasirinktus filtrus.<br>Pridėk naują dainą arba pakeisk filtrą.</div></div>';
+      return;
+    }
+
+    list.innerHTML = filtered.map(function(s){
+      var g = GENRES[s.genre] || GENRES.other;
+      var st = STATUSES[s.status] || STATUSES.wishlist;
+      var tn = TUNINGS[s.tuning] || TUNINGS.custom;
+      var tabOpen = !!expandedTab[s.id];
+      var ytOpen = !!expandedYt[s.id];
+      return '' +
+      '<div class="song" style="border-left-color:'+g.color+'">' +
+        '<div class="srow">' +
+          '<div>' +
+            '<div class="title">'+esc(s.title)+'</div>' +
+            '<div class="artist">'+esc(s.artist)+(s.album?' · '+esc(s.album):'')+'</div>' +
+          '</div>' +
+          '<div class="icons">' +
+            '<span class="genre-pill" style="background:'+g.color+'">'+g.label+'</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="meta-row">' +
+          '<span class="meta-pill">'+esc(tn.label)+'</span>' +
+          '<span class="meta-pill '+st.cls+'">'+st.label+'</span>' +
+          diffDots(s.difficulty||0) +
+        '</div>' +
+        '<div class="actrow">' +
+          '<button class="btn-yt'+(ytOpen?' on':'')+'" data-yt="'+s.id+'">'+(ytOpen?ICO.pause:ICO.play)+' Klausytis</button>' +
+          '<button class="btn-tab'+(tabOpen?' on':'')+'" data-tab-toggle="'+s.id+'">'+ICO.tab+' Tabas</button>' +
+          '<button class="icon-btn" data-edit="'+s.id+'" style="flex:none;width:40px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2)">'+ICO.edit+'</button>' +
+          '<button class="icon-btn" data-del="'+s.id+'" style="flex:none;width:40px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2);color:var(--danger)">'+ICO.trash+'</button>' +
+        '</div>' +
+        '<div class="yt-wrap'+(ytOpen?' show':'')+'" id="yt-'+s.id+'">' +
+          (ytOpen && s.youtube ? '<iframe src="https://www.youtube-nocookie.com/embed/'+esc(s.youtube)+'?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>' : '') +
+        '</div>' +
+        '<div class="tab-wrap'+(tabOpen?' show':'')+'">' +
+          '<div class="tabblock">'+esc(s.content||'(Tabas dar nepridėtas.)')+'</div>' +
+          (s.notes ? '<div class="tab-notes">'+esc(s.notes)+'</div>' : '') +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    list.querySelectorAll('[data-yt]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.dataset.yt;
+        expandedYt[id] = !expandedYt[id];
+        renderSongs();
+      });
+    });
+    list.querySelectorAll('[data-tab-toggle]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.dataset.tabToggle;
+        expandedTab[id] = !expandedTab[id];
+        renderSongs();
+      });
+    });
+    list.querySelectorAll('[data-edit]').forEach(function(btn){
+      btn.addEventListener('click', function(){ openSongSheet(btn.dataset.edit); });
+    });
+    list.querySelectorAll('[data-del]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.dataset.del;
+        var s = songs.find(function(x){ return x.id===id; });
+        if(s && confirm('Ištrinti dainą „'+s.title+'“?')){
+          songs = songs.filter(function(x){ return x.id!==id; });
+          saveSongs();
+          renderSongs();
+          renderRef();
+        }
+      });
+    });
+  }
+
+  /* ---------- overlay / sheet ---------- */
+  var overlay = document.getElementById('overlay');
+  var sheetEl = document.getElementById('sheet');
+  function closeSheet(){ overlay.classList.remove('show'); sheetEl.innerHTML=''; editingId=null; }
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) closeSheet(); });
+
+  document.querySelectorAll('[data-add="song"]').forEach(function(b){
+    b.addEventListener('click', function(){ openSongSheet(null); });
+  });
+
+  function openSongSheet(id){
+    editingId = id;
+    var s = id ? songs.find(function(x){ return x.id===id; }) : null;
+    var isEdit = !!s;
+    s = s || {title:'',artist:'',album:'',genre:'metal',tuning:'standard',status:'learning',difficulty:3,youtube:'',content:'',notes:''};
+
+    var genreChips = Object.keys(GENRES).map(function(k){
+      return '<button type="button" class="chip'+(s.genre===k?' on':'')+'" data-field="genre" data-val="'+k+'">'+GENRES[k].label+'</button>';
+    }).join('');
+    var tuningChips = Object.keys(TUNINGS).map(function(k){
+      return '<button type="button" class="chip'+(s.tuning===k?' on':'')+'" data-field="tuning" data-val="'+k+'">'+TUNINGS[k].label+'</button>';
+    }).join('');
+    var statusChips = Object.keys(STATUSES).map(function(k){
+      return '<button type="button" class="chip'+(s.status===k?' on':'')+'" data-field="status" data-val="'+k+'">'+STATUSES[k].label+'</button>';
+    }).join('');
+    var diffChips = [1,2,3,4,5].map(function(n){
+      return '<button type="button" class="chip'+(s.difficulty===n?' on':'')+'" data-field="difficulty" data-val="'+n+'">'+n+'</button>';
+    }).join('');
+
+    sheetEl.innerHTML = '' +
+      '<div class="grab"></div>' +
+      '<div class="sheet-head"><h3>'+(isEdit?'Redaguoti dainą':'Nauja daina')+'</h3><button class="x" id="closeSheet">✕</button></div>' +
+      '<div class="field"><label>Pavadinimas</label><input id="f-title" value="'+esc(s.title)+'" placeholder="Pvz. Aerials"></div>' +
+      '<div class="field"><label>Atlikėjas</label><input id="f-artist" value="'+esc(s.artist)+'" placeholder="Pvz. System of a Down"></div>' +
+      '<div class="field"><label>Albumas (nebūtina)</label><input id="f-album" value="'+esc(s.album)+'"></div>' +
+      '<div class="field"><label>Žanras</label><div class="chips" id="f-genre">'+genreChips+'</div></div>' +
+      '<div class="field"><label>Derinimas</label><div class="chips" id="f-tuning">'+tuningChips+'</div></div>' +
+      '<div class="field"><label>Statusas</label><div class="chips" id="f-status">'+statusChips+'</div></div>' +
+      '<div class="field"><label>Sudėtingumas (1–5)</label><div class="chips" id="f-difficulty">'+diffChips+'</div></div>' +
+      '<div class="field"><label>YouTube video ID arba nuoroda (nebūtina)</label><input id="f-youtube" value="'+esc(s.youtube)+'" placeholder="pvz. dQw4w9WgXcQ arba pilna nuoroda"></div>' +
+      '<div class="field"><label>Akordai / tabas (be dainos žodžių)</label><textarea id="f-content" class="mono" placeholder="Įklijuok akordų seką arba TAB notaciją...">'+esc(s.content)+'</textarea></div>' +
+      '<div class="field"><label>Pastabos (nebūtina)</label><textarea id="f-notes" placeholder="Grojimo patarimai, strumo raštas ir t.t.">'+esc(s.notes)+'</textarea></div>' +
+      '<button class="save" id="saveSong">Išsaugoti</button>' +
+      (isEdit ? '<button class="del-link" id="deleteSong">Ištrinti dainą</button>' : '');
+
+    sheetEl.querySelectorAll('.chips').forEach(function(group){
+      group.addEventListener('click', function(e){
+        var btn = e.target.closest('.chip'); if(!btn) return;
+        group.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on', b===btn); });
+      });
+    });
+
+    document.getElementById('closeSheet').addEventListener('click', closeSheet);
+    document.getElementById('saveSong').addEventListener('click', function(){
+      var title = document.getElementById('f-title').value.trim();
+      var artist = document.getElementById('f-artist').value.trim();
+      if(!title || !artist){ alert('Įvesk bent pavadinimą ir atlikėją.'); return; }
+      var genreBtn = sheetEl.querySelector('#f-genre .chip.on');
+      var tuningBtn = sheetEl.querySelector('#f-tuning .chip.on');
+      var statusBtn = sheetEl.querySelector('#f-status .chip.on');
+      var diffBtn = sheetEl.querySelector('#f-difficulty .chip.on');
+      var yt = document.getElementById('f-youtube').value.trim();
+      var ytMatch = yt.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{6,})/);
+      if(ytMatch) yt = ytMatch[1];
+
+      var data = {
+        id: isEdit ? s.id : 'song-'+Date.now(),
+        title: title,
+        artist: artist,
+        album: document.getElementById('f-album').value.trim(),
+        genre: genreBtn ? genreBtn.dataset.val : 'other',
+        tuning: tuningBtn ? tuningBtn.dataset.val : 'standard',
+        status: statusBtn ? statusBtn.dataset.val : 'learning',
+        difficulty: diffBtn ? Number(diffBtn.dataset.val) : 3,
+        youtube: yt,
+        content: document.getElementById('f-content').value,
+        notes: document.getElementById('f-notes').value.trim()
+      };
+
+      if(isEdit){
+        var idx = songs.findIndex(function(x){ return x.id===s.id; });
+        songs[idx] = data;
+      } else {
+        songs.unshift(data);
+      }
+      saveSongs();
+      closeSheet();
+      renderSongs();
+      renderRef();
+    });
+
+    if(isEdit){
+      document.getElementById('deleteSong').addEventListener('click', function(){
+        if(confirm('Ištrinti dainą „'+s.title+'“?')){
+          songs = songs.filter(function(x){ return x.id!==s.id; });
+          saveSongs();
+          closeSheet();
+          renderSongs();
+          renderRef();
+        }
+      });
+    }
+
+    overlay.classList.add('show');
+  }
+
+  /* ---------- search screen ---------- */
+  function buildSearchLinks(q){
+    var enc = encodeURIComponent(q);
+    return [
+      {name:'Ultimate Guitar', desc:'Populiariausia tabų/akordų svetainė', url:'https://www.ultimate-guitar.com/search.php?search_type=title&value='+enc},
+      {name:'Songsterr', desc:'Interaktyvūs tabai su grojimo animacija', url:'https://www.songsterr.com/?pattern='+enc},
+      {name:'E-Chords', desc:'Akordų lentelės su transponavimu', url:'https://www.e-chords.com/search/'+enc},
+      {name:'Google paieška', desc:'Bendra „chords/tab“ paieška', url:'https://www.google.com/search?q='+enc+'+chords+tab'}
+    ];
+  }
+  function renderSearchResults(q){
+    var wrap = document.getElementById('searchResults');
+    if(!q){ wrap.innerHTML=''; return; }
+    wrap.innerHTML = buildSearchLinks(q).map(function(l){
+      return '<a class="search-link" href="'+l.url+'" target="_blank" rel="noopener">' +
+        '<div><div class="sl-name">'+esc(l.name)+'</div><div class="sl-desc">'+esc(l.desc)+'</div></div>' +
+        ICO.link + '</a>';
+    }).join('');
+  }
+  document.getElementById('searchBtn').addEventListener('click', function(){
+    renderSearchResults(document.getElementById('searchInput').value.trim());
+  });
+  document.getElementById('searchInput').addEventListener('keydown', function(e){
+    if(e.key==='Enter') renderSearchResults(this.value.trim());
+  });
+
+  /* ---------- tuner ---------- */
+  var currentTuning = 'standard';
+  var audioCtx = null;
+  var activeOsc = null;
+  var activeBtn = null;
+
+  function stopTone(){
+    if(activeOsc){
+      try{ activeOsc.stop(); }catch(e){}
+      activeOsc = null;
+    }
+    if(activeBtn){ activeBtn.classList.remove('on'); activeBtn=null; }
+  }
+  function playTone(freq, btn){
+    if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    var wasSame = activeBtn===btn;
+    stopTone();
+    if(wasSame) return;
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    var now = audioCtx.currentTime;
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.3, now+0.04);
+    gain.gain.linearRampToValueAtTime(0.0001, now+2.6);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start();
+    osc.stop(now+2.7);
+    activeOsc = osc;
+    activeBtn = btn;
+    btn.classList.add('on');
+    osc.onended = function(){
+      if(activeOsc===osc){ activeOsc=null; }
+      btn.classList.remove('on');
+      if(activeBtn===btn) activeBtn=null;
+    };
+  }
+
+  function renderTuningSelect(){
+    var wrap = document.getElementById('tuningSelect');
+    wrap.innerHTML = Object.keys(TUNINGS).filter(function(k){ return k!=='custom'; }).map(function(k){
+      return '<button type="button" class="chip'+(currentTuning===k?' on':'')+'" data-tuning="'+k+'">'+TUNINGS[k].label+'</button>';
+    }).join('');
+    wrap.querySelectorAll('[data-tuning]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        currentTuning = btn.dataset.tuning;
+        stopTone();
+        renderTuningSelect();
+        renderStrings();
+      });
+    });
+  }
+  function renderStrings(){
+    var wrap = document.getElementById('stringList');
+    var t = TUNINGS[currentTuning];
+    wrap.innerHTML = t.strings.map(function(str, i){
+      return '<div class="string-row">' +
+        '<div class="snum">'+(6-i)+'</div>' +
+        '<div class="sinfo"><div class="sname">'+esc(str.label)+'</div><div class="sfreq">'+str.freq.toFixed(2)+' Hz</div></div>' +
+        '<button class="play" data-freq="'+str.freq+'">'+ICO.play+'</button>' +
+      '</div>';
+    }).join('');
+    wrap.querySelectorAll('.play').forEach(function(btn, i){
+      var origSvg = btn.innerHTML;
+      btn.addEventListener('click', function(){
+        playTone(Number(btn.dataset.freq), btn);
+      });
+    });
+  }
+
+  /* ---------- reference screen ---------- */
+  function renderRef(){
+    var stats = document.getElementById('libStats');
+    var learning = songs.filter(function(s){ return s.status==='learning'; }).length;
+    var learned = songs.filter(function(s){ return s.status==='learned'; }).length;
+    var genreCounts = {};
+    songs.forEach(function(s){ genreCounts[s.genre]=(genreCounts[s.genre]||0)+1; });
+    var topGenre = Object.keys(genreCounts).sort(function(a,b){ return genreCounts[b]-genreCounts[a]; })[0];
+    stats.innerHTML =
+      '<div class="stat"><div class="k">Iš viso dainų</div><div class="v accent">'+songs.length+'</div></div>' +
+      '<div class="stat"><div class="k">Mokausi</div><div class="v">'+learning+'</div></div>' +
+      '<div class="stat"><div class="k">Išmokta</div><div class="v">'+learned+'</div></div>' +
+      '<div class="stat"><div class="k">Dažniausias žanras</div><div class="v">'+(topGenre?GENRES[topGenre].label:'—')+'</div></div>';
+
+    var tuningRef = document.getElementById('tuningRef');
+    tuningRef.innerHTML = Object.keys(TUNINGS).filter(function(k){ return k!=='custom'; }).map(function(k){
+      var count = songs.filter(function(s){ return s.tuning===k; }).length;
+      return '<div class="ref-row"><span class="rk">'+TUNINGS[k].label+' ('+TUNINGS[k].full+')</span><span class="rvv">'+count+' daina(-os)</span></div>';
+    }).join('');
+  }
+
+  /* ---------- init ---------- */
+  loadSongs();
+  renderSongs();
+  renderTuningSelect();
+  renderStrings();
+  renderRef();
+
+  window.addEventListener('load', function(){
+    setTimeout(function(){
+      document.getElementById('splash').classList.add('hide');
+    }, 600);
+  });
+})();
+</script>
+</body>
+</html>
